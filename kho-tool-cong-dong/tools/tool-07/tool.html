@@ -1,0 +1,22 @@
+<div class="bg-slate-900/60 border border-slate-800 rounded-3xl p-6 sm:p-8 space-y-4">
+  <div class="flex items-center justify-between">
+    <h2 class="text-xl font-bold text-white">Smart Text Formatter</h2>
+    <span class="text-[10px] bg-teal-500/10 text-teal-400 px-2 py-1 rounded-lg">v2</span>
+  </div>
+  <p class="text-xs text-slate-400">Chuẩn hóa văn bản tiếng Việt nhanh chóng.</p>
+
+  <textarea id="m7-input" rows="6" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-xs text-slate-200 focus:outline-none focus:ring-1 focus:ring-teal-500" placeholder="Dán văn bản cần chuẩn hóa..."></textarea>
+
+  <div class="flex flex-wrap gap-2">
+    <button id="m7-removeAccent" class="bg-teal-600 hover:bg-teal-500 text-white text-xs font-bold px-4 py-2 rounded-xl">Bỏ dấu</button>
+    <button id="m7-cleanLines" class="bg-slate-700 hover:bg-slate-600 text-white text-xs font-bold px-4 py-2 rounded-xl">Chuẩn hóa dòng</button>
+    <button id="m7-capitalize" class="bg-slate-700 hover:bg-slate-600 text-white text-xs font-bold px-4 py-2 rounded-xl">Viết hoa đầu câu</button>
+    <button id="m7-cleanSpace" class="bg-slate-700 hover:bg-slate-600 text-white text-xs font-bold px-4 py-2 rounded-xl">Xóa khoảng trắng thừa</button>
+  </div>
+
+  <div class="flex justify-between items-center">
+    <span class="text-[10px] text-slate-500">Kết quả</span>
+    <button id="m7-copyBtn" class="hidden text-[10px] bg-slate-800 hover:bg-slate-700 px-3 py-1 rounded-lg text-slate-300">Sao chép</button>
+  </div>
+  <textarea id="m7-output" rows="6" readonly class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-xs text-slate-200 font-mono"></textarea>
+</div>

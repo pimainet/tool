@@ -1,0 +1,37 @@
+<div class="bg-slate-900/60 border border-slate-800 rounded-3xl p-6 sm:p-8 space-y-4 max-w-xl mx-auto">
+  <div class="flex items-center justify-between">
+    <h2 class="text-xl font-bold text-white">QuickVietQR Generator</h2>
+    <span class="text-[10px] bg-emerald-500/10 text-emerald-400 px-2 py-1 rounded-lg">v2</span>
+  </div>
+  <p class="text-xs text-slate-400">Tạo mã VietQR. Có thể lưu tài khoản để dùng lại nhanh.</p>
+
+  <div id="m2-savedBox" class="hidden">
+    <label class="text-xs text-slate-400">Tài khoản đã lưu</label>
+    <select id="m2-savedSelect" class="w-full mt-1 bg-slate-950 border border-slate-800 text-xs p-3 rounded-xl text-slate-200">
+      <option value="">-- Chọn tài khoản đã lưu --</option>
+    </select>
+  </div>
+
+  <select id="m2-bankSelect" class="w-full bg-slate-950 border border-slate-800 text-xs p-3 rounded-xl text-slate-200">
+    <option value="MB">MBBank</option>
+    <option value="VCB">Vietcombank</option>
+    <option value="TCB">Techcombank</option>
+    <option value="ACB">ACB</option>
+    <option value="VPB">VPBank</option>
+    <option value="BIDV">BIDV</option>
+    <option value="CTG">VietinBank</option>
+  </select>
+  <input type="text" id="m2-accountNo" placeholder="Số tài khoản" class="w-full bg-slate-950 border border-slate-800 text-xs p-3 rounded-xl text-slate-200">
+  <input type="text" id="m2-accountName" placeholder="Tên chủ tài khoản (VIẾT HOA KHÔNG DẤU)" class="w-full bg-slate-950 border border-slate-800 text-xs p-3 rounded-xl text-slate-200">
+  <input type="number" id="m2-amount" placeholder="Số tiền (VNĐ)" class="w-full bg-slate-950 border border-slate-800 text-xs p-3 rounded-xl text-slate-200">
+  <input type="text" id="m2-memo" placeholder="Nội dung chuyển khoản" class="w-full bg-slate-950 border border-slate-800 text-xs p-3 rounded-xl text-slate-200">
+
+  <div class="flex gap-2">
+    <button id="m2-generateBtn" class="flex-1 bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs py-3 rounded-xl">Tạo mã QR</button>
+    <button id="m2-saveBtn" class="bg-slate-700 hover:bg-slate-600 text-white text-xs font-bold px-4 py-3 rounded-xl">Lưu TK</button>
+  </div>
+
+  <div id="m2-qrResult" class="hidden text-center pt-4">
+    <img id="m2-qrImg" class="mx-auto rounded-xl border border-slate-700" alt="VietQR">
+  </div>
+</div>

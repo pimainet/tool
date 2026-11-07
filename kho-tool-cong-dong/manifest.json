@@ -1,0 +1,92 @@
+[
+  {
+    "id": "tool-01",
+    "name": "Smart Data Cleaner",
+    "description": "Lọc sạch số điện thoại từ văn bản thô, xóa trùng lặp.",
+    "icon": "🧹",
+    "color": "cyan",
+    "tags": ["data", "sđt", "sales", "lọc"],
+    "status": "live",
+    "path": "./tools/tool-01/"
+  },
+  {
+    "id": "tool-02",
+    "name": "QuickVietQR Generator",
+    "description": "Tạo mã VietQR thanh toán động với số tiền và nội dung.",
+    "icon": "💳",
+    "color": "emerald",
+    "tags": ["qr", "thanh toán", "ngân hàng", "vietqr"],
+    "status": "live",
+    "path": "./tools/tool-02/"
+  },
+  {
+    "id": "tool-03",
+    "name": "Instant Lead Notifier",
+    "description": "Gửi thông báo lead mới qua Telegram Bot.",
+    "icon": "🤖",
+    "color": "purple",
+    "tags": ["telegram", "lead", "thông báo", "bot"],
+    "status": "live",
+    "path": "./tools/tool-03/"
+  },
+  {
+    "id": "tool-04",
+    "name": "Smart Meeting Assistant",
+    "description": "Tóm tắt biên bản cuộc họp và phân công việc.",
+    "icon": "🎙️",
+    "color": "amber",
+    "tags": ["meeting", "biên bản", "tóm tắt"],
+    "status": "beta",
+    "path": "./tools/tool-04/"
+  },
+  {
+    "id": "tool-05",
+    "name": "Smart Excel Copilot",
+    "description": "Trợ lý viết công thức Excel thông minh.",
+    "icon": "📈",
+    "color": "orange",
+    "tags": ["excel", "công thức", "sheets"],
+    "status": "beta",
+    "path": "./tools/tool-05/"
+  },
+  {
+    "id": "tool-06",
+    "name": "Executive Dashboard",
+    "description": "Tạo dashboard từ dữ liệu mẫu hoặc Excel.",
+    "icon": "📊",
+    "color": "indigo",
+    "tags": ["dashboard", "biểu đồ", "báo cáo"],
+    "status": "live",
+    "path": "./tools/tool-06/"
+  },
+  {
+    "id": "tool-07",
+    "name": "Smart Text Formatter",
+    "description": "Chuẩn hóa tiếng Việt, bỏ dấu, xử lý ngắt dòng.",
+    "icon": "✍️",
+    "color": "teal",
+    "tags": ["text", "tiếng việt", "format"],
+    "status": "live",
+    "path": "./tools/tool-07/"
+  },
+  {
+    "id": "tool-08",
+    "name": "Smart Image Studio",
+    "description": "Cắt ảnh chuẩn khung, nén và chèn logo.",
+    "icon": "🖼️",
+    "color": "pink",
+    "tags": ["ảnh", "cắt", "nén", "logo"],
+    "status": "beta",
+    "path": "./tools/tool-08/"
+  },
+  {
+    "id": "tool-09",
+    "name": "Universal Converter",
+    "description": "Chuyển đổi Excel/CSV/JSON và định dạng ảnh hàng loạt.",
+    "icon": "🔄",
+    "color": "indigo",
+    "tags": ["convert", "excel", "csv", "json", "ảnh"],
+    "status": "live",
+    "path": "./tools/tool-09/"
+  }
+]

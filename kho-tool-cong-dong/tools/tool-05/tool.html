@@ -1,0 +1,22 @@
+<div class="bg-slate-900/60 border border-slate-800 rounded-3xl p-6 sm:p-8 space-y-4">
+  <div class="flex items-center justify-between">
+    <h2 class="text-xl font-bold text-white">Smart Excel Copilot</h2>
+    <span class="text-[10px] bg-orange-500/10 text-orange-400 px-2 py-1 rounded-lg">v3</span>
+  </div>
+  <p class="text-xs text-slate-400">Tìm công thức Excel theo nhu cầu. Sao chép và dùng ngay.</p>
+
+  <input type="text" id="m5-search" placeholder="Tìm công thức (tính tổng, đếm, nối chuỗi, ngày tháng...)" 
+         class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-xs text-slate-200 focus:outline-none focus:ring-1 focus:ring-orange-500">
+
+  <div class="flex flex-wrap gap-2" id="m5-tags">
+    <button data-tag="all" class="m5-tag bg-orange-600 text-white text-xs px-3 py-1.5 rounded-lg">Tất cả</button>
+    <button data-tag="sum" class="m5-tag bg-slate-800 text-slate-300 text-xs px-3 py-1.5 rounded-lg">Tính tổng</button>
+    <button data-tag="count" class="m5-tag bg-slate-800 text-slate-300 text-xs px-3 py-1.5 rounded-lg">Đếm</button>
+    <button data-tag="if" class="m5-tag bg-slate-800 text-slate-300 text-xs px-3 py-1.5 rounded-lg">Điều kiện</button>
+    <button data-tag="lookup" class="m5-tag bg-slate-800 text-slate-300 text-xs px-3 py-1.5 rounded-lg">Tra cứu</button>
+    <button data-tag="text" class="m5-tag bg-slate-800 text-slate-300 text-xs px-3 py-1.5 rounded-lg">Văn bản</button>
+    <button data-tag="date" class="m5-tag bg-slate-800 text-slate-300 text-xs px-3 py-1.5 rounded-lg">Ngày tháng</button>
+  </div>
+
+  <div id="m5-results" class="space-y-3 pt-2"></div>
+</div>

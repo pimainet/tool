@@ -1,0 +1,29 @@
+<div class="bg-slate-900/60 border border-slate-800 rounded-3xl p-6 sm:p-8 space-y-4">
+  <div class="flex items-center justify-between">
+    <h2 class="text-xl font-bold text-white">Smart Meeting Assistant</h2>
+    <span class="text-[10px] bg-amber-500/10 text-amber-400 px-2 py-1 rounded-lg">v2</span>
+  </div>
+  <p class="text-xs text-slate-400">Dán biên bản cuộc họp. Tool sẽ tách việc cần làm và người phụ trách.</p>
+
+  <textarea id="m4-input" rows="8" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-xs text-slate-200 focus:outline-none focus:ring-1 focus:ring-amber-500" placeholder="Dán biên bản hoặc ghi chú cuộc họp vào đây...
+
+Ví dụ:
+- Anh Minh cần hoàn thành báo cáo trước thứ 6
+- Chị Lan phụ trách liên hệ khách hàng
+- Cần chuẩn bị tài liệu họp tuần sau"></textarea>
+
+  <button id="m4-processBtn" class="bg-amber-600 hover:bg-amber-500 text-white font-bold text-xs px-5 py-2.5 rounded-xl">Phân tích</button>
+
+  <div id="m4-result" class="hidden space-y-4 pt-2">
+    <div>
+      <div class="text-xs font-semibold text-amber-400 mb-2">Việc cần làm</div>
+      <div id="m4-tasks" class="space-y-2"></div>
+    </div>
+    <div>
+      <div class="text-xs font-semibold text-slate-400 mb-2">Người được nhắc đến</div>
+      <div id="m4-people" class="flex flex-wrap gap-2"></div>
+    </div>
+    <button id="m4-copyBtn" class="text-xs bg-slate-800 hover:bg-slate-700 text-slate-300 px-4 py-2 rounded-lg">Sao chép</button>
+    <button id="m4-exportBtn" class="text-xs bg-amber-600 hover:bg-amber-500 text-white px-4 py-2 rounded-lg">Xuất file .txt</button>
+  </div>
+</div>

@@ -1,0 +1,26 @@
+<div class="bg-slate-900/60 border border-slate-800 rounded-3xl p-6 sm:p-8 space-y-4">
+  <div class="flex items-center justify-between">
+    <h2 class="text-xl font-bold text-white">Smart Data Cleaner</h2>
+    <span class="text-[10px] bg-cyan-500/10 text-cyan-400 px-2 py-1 rounded-lg">v2</span>
+  </div>
+  <p class="text-xs text-slate-400">Lọc số điện thoại từ văn bản. Có thể giữ nguyên dòng gốc để không mất ngữ cảnh.</p>
+
+  <textarea id="m1-inputText" rows="6" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-xs text-slate-200 focus:outline-none focus:ring-1 focus:ring-cyan-500" placeholder="Dán đoạn văn bản chứa số điện thoại..."></textarea>
+
+  <div class="flex items-center gap-3 text-xs">
+    <label class="flex items-center gap-2 cursor-pointer">
+      <input type="checkbox" id="m1-keepContext" class="rounded border-slate-600 text-cyan-500 focus:ring-cyan-500">
+      <span class="text-slate-300">Giữ ngữ cảnh (xuất cả dòng gốc)</span>
+    </label>
+  </div>
+
+  <button id="m1-cleanBtn" class="bg-cyan-600 hover:bg-cyan-500 text-white font-bold text-xs px-5 py-2.5 rounded-xl transition">Lọc Số Điện Thoại</button>
+
+  <div class="space-y-2">
+    <div class="flex justify-between items-center">
+      <span id="m1-count" class="text-xs text-cyan-400 font-bold"></span>
+      <button id="m1-copyBtn" class="hidden text-[10px] bg-slate-800 hover:bg-slate-700 px-3 py-1 rounded-lg text-slate-300">Sao chép</button>
+    </div>
+    <textarea id="m1-outputResult" rows="6" readonly class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-xs text-slate-200 font-mono"></textarea>
+  </div>
+</div>
