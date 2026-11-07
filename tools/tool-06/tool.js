@@ -30,11 +30,24 @@ window.KhoTool.currentInit = function () {
 function handleFile(e) {
   const file = e.target.files[0];
   if (!file) return;
+
+  if (typeof XLSX === 'undefined') {
+    KhoTool.utils.showToast('Thư viện Excel chưa tải. Tải lại trang.', 'error');
+    return;
+  }
+
   const reader = new FileReader();
+  reader.onerror = function () {
+    KhoTool.utils.showToast('Không đọc được file', 'error');
+  };
   reader.onload = function (ev) {
     try {
       const data = new Uint8Array(ev.target.result);
       workbook = XLSX.read(data, { type: 'array' });
+      if (!workbook.SheetNames || !workbook.SheetNames.length) {
+        KhoTool.utils.showToast('File không có dữ liệu', 'error');
+        return;
+      }
       loadSheet(workbook.SheetNames[0]);
       const sheetSelect = document.getElementById('m6-sheetSelect');
       sheetSelect.innerHTML = '';
@@ -42,7 +55,8 @@ function handleFile(e) {
       document.getElementById('m6-sheetBox').classList.toggle('hidden', workbook.SheetNames.length <= 1);
       KhoTool.utils.showToast('Đã đọc file');
     } catch (err) {
-      KhoTool.utils.showToast('Không đọc được file', 'error');
+      console.error(err);
+      KhoTool.utils.showToast('Lỗi: ' + (err.message || 'không đọc được'), 'error');
     }
   };
   reader.readAsArrayBuffer(file);
