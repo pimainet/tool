@@ -6,6 +6,7 @@ let logoImage = null;
 let logoPos = { x: 0.7, y: 0.7 };
 let currentRatio = 'free'; // = rộng / cao
 let cropBox = null;
+let cropHandle = null;
 const MIN_CROP = 24;
 
 const $ = id => document.getElementById(id);
@@ -23,8 +24,10 @@ window.KhoTool.currentInit = function () {
   cropBox.style.touchAction = 'none';
   $('m8-logoOverlay').style.touchAction = 'none';
   const handle = document.createElement('div');
-  handle.style.cssText = 'position:absolute;right:-1px;bottom:-1px;width:22px;height:22px;background:#f472b6;border-radius:6px 0 0 0;cursor:nwse-resize;touch-action:none;';
-  cropBox.appendChild(handle);
+  handle.style.cssText = 'position:absolute;width:22px;height:22px;background:#f472b6;border-radius:6px 0 0 0;cursor:nwse-resize;touch-action:none;';
+  handle.style.zIndex = '5';
+  cropHandle = handle;
+  cropBox.parentElement.appendChild(handle); // nằm ngoài khung cắt để luôn nổi trên logo
   setupCropDrag();
   setupCropResize(handle);
   setupLogoDrag($('m8-logoOverlay'));
@@ -195,7 +198,16 @@ function setupCropResize(handle) {
   });
 }
 
+function syncHandle() {
+  if (!cropHandle || !cropBox) return;
+  const r = boxRect();
+  cropHandle.style.display = cropBox.style.display === 'none' ? 'none' : 'block';
+  cropHandle.style.left = (r.l + r.w - 22) + 'px';
+  cropHandle.style.top = (r.t + r.h - 22) + 'px';
+}
+
 function positionLogoOverlay() {
+  syncHandle();
   const overlay = $('m8-logoOverlay');
   if (!overlay || !originalImage || overlay.style.display === 'none' || !logoImage) return;
   const r = boxRect();
@@ -336,4 +348,5 @@ function reset() {
   originalImage = null;
   imageFiles = [];
   if (cropBox) cropBox.style.display = 'none';
+  syncHandle();
 }

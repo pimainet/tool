@@ -2,7 +2,7 @@ window.KhoTool = window.KhoTool || {};
 
 window.KhoTool.utils = {
   formatVND(n) {
-    return new Intl.NumberFormat('vi-VN').format(n) + ' đ';
+    return new Intl.NumberFormat('vi-VN', { maximumFractionDigits: 0 }).format(n) + ' đ';
   },
   showToast(msg, type = 'info') {
     const el = document.createElement('div');

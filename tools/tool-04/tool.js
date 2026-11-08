@@ -12,12 +12,12 @@ function esc(s) {
 
 // Từ khóa nhận diện dòng là "việc cần làm" (khớp theo từ nguyên, không khớp giữa từ)
 const TASK_WORDS = ['cần', 'phải', 'hoàn thành', 'chuẩn bị', 'gửi', 'liên hệ', 'phụ trách', 'chịu trách nhiệm',
-  'báo cáo', 'triển khai', 'kiểm tra', 'theo dõi', 'cập nhật', 'soạn', 'thực hiện', 'đảm nhận', 'deadline', 'task', 'trước'];
+  'báo cáo', 'triển khai', 'kiểm tra', 'theo dõi', 'cập nhật', 'soạn', 'thực hiện', 'đảm nhận', 'deadline', 'task'];
 const TASK_RE = new RegExp(`(?<![\\p{L}])(?:${TASK_WORDS.join('|')})(?![\\p{L}])`, 'iu');
 
 // Từ viết hoa đầu câu không phải tên người
 const NOT_NAME = new Set(['cần', 'phải', 'sẽ', 'đã', 'đang', 'hoàn', 'chuẩn', 'gửi', 'liên', 'báo', 'kiểm', 'theo',
-  'cập', 'soạn', 'thực', 'triển', 'họp', 'công', 'tuần', 'tháng', 'ngày', 'thứ', 'các', 'mọi', 'team', 'nhóm', 'bộ']);
+  'cập', 'soạn', 'thực', 'triển', 'họp', 'công', 'tuần', 'tháng', 'ngày', 'thứ', 'các', 'mọi', 'team', 'nhóm', 'bộ', 'sale', 'sales', 'marketing', 'kế', 'bên']);
 
 const NAME = '\\p{Lu}\\p{Ll}+';
 const NAME_SEQ = `${NAME}(?:\\s+${NAME}){0,2}`;

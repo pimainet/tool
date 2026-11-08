@@ -1,5 +1,6 @@
 let rawData = null;
 let workbook = null;
+let sourceIsCsv = false;
 let baseName = 'export';
 let imageFiles = [];
 
@@ -66,6 +67,7 @@ function handleFile(e) {
   reader.onload = function (ev) {
     try {
       workbook = null;
+      sourceIsCsv = isCsv;
       document.getElementById('m9-sheetBox').classList.add('hidden');
       if (isJson) {
         rawData = JSON.parse(ev.target.result);
@@ -92,8 +94,19 @@ function handleFile(e) {
   else reader.readAsArrayBuffer(file);
 }
 
+// CSV đọc ở dạng chuỗi nguyên bản. Chuyển các chuỗi số thuần (1500, -2.5) thành số để xuất JSON/Excel đúng kiểu.
+// Giữ nguyên dạng chữ với số có 0 đầu (SĐT 0912345678) và dãy quá dài (mã, số tài khoản).
+function coerceRow(row) {
+  const out = {};
+  for (const [k, v] of Object.entries(row)) {
+    out[k] = (typeof v === 'string' && /^-?(?:0|[1-9]\d{0,14})(?:\.\d+)?$/.test(v)) ? Number(v) : v;
+  }
+  return out;
+}
+
 function loadSheet(sheetName) {
   rawData = XLSX.utils.sheet_to_json(workbook.Sheets[sheetName], { defval: '' });
+  if (sourceIsCsv) rawData = rawData.map(coerceRow);
   showData(workbook.SheetNames.length > 1 ? `Sheet "${sheetName}": ` : '');
 }
 
