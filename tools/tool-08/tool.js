@@ -1,12 +1,11 @@
 let imageFiles = [];
 let currentIndex = 0;
+let originalImage = null;
 let logoImage = null;
-let logoPos = { x: 0.7, y: 0.7 }; // relative position
+let logoPos = { x: 0.7, y: 0.7 };
 let currentRatio = 'free';
 let cropBox = null;
 let isDragging = false;
-let isResizing = false;
-let startX, startY, startW, startH, startLeft, startTop;
 
 window.KhoTool.currentInit = function () {
   document.getElementById('m8-imageInput').onchange = handleImage;
@@ -15,8 +14,6 @@ window.KhoTool.currentInit = function () {
   document.getElementById('m8-batchBtn').onclick = processBatch;
   document.getElementById('m8-resetBtn').onclick = reset;
   document.getElementById('m8-logoInput').onchange = handleLogo;
-    document.getElementById('m8-qualityLabel').textContent = this.value + '%';
-  };
   cropBox = document.getElementById('m8-cropBox');
 
   document.querySelectorAll('.m8-ratio-btn').forEach(btn => {
@@ -35,33 +32,14 @@ window.KhoTool.currentInit = function () {
     };
   });
 
-  document.getElementById('m8-logoSize').oninput = function() { positionLogoOverlay(); showPreview(); };
+  document.getElementById('m8-logoSize').oninput = function () {
+    positionLogoOverlay();
+    showPreview();
+  };
   document.getElementById('m8-quality').oninput = function () {
     document.getElementById('m8-qualityLabel').textContent = this.value + '%';
   };
 };
-
-function handleLogo(e) {
-  const file = e.target.files[0];
-  if (!file) { logoImage = null; return; }
-  const reader = new FileReader();
-  reader.onload = function (ev) {
-    const img = new Image();
-    img.onload = function () {
-      logoImage = img;
-      document.getElementById('m8-logoOptions').classList.remove('hidden');
-      const overlay = document.getElementById('m8-logoOverlay');
-      overlay.src = img.src;
-      overlay.style.display = 'block';
-      positionLogoOverlay();
-      setupLogoDrag(overlay);
-      showPreview();
-      KhoTool.utils.showToast('Kéo logo để đặt vị trí');
-    };
-    img.src = ev.target.result;
-  };
-  reader.readAsDataURL(file);
-}
 
 function handleImage(e) {
   const files = Array.from(e.target.files);
@@ -90,6 +68,28 @@ function loadImageAt(index) {
   reader.readAsDataURL(imageFiles[index]);
 }
 
+function handleLogo(e) {
+  const file = e.target.files[0];
+  if (!file) { logoImage = null; return; }
+  const reader = new FileReader();
+  reader.onload = function (ev) {
+    const img = new Image();
+    img.onload = function () {
+      logoImage = img;
+      document.getElementById('m8-logoOptions').classList.remove('hidden');
+      const overlay = document.getElementById('m8-logoOverlay');
+      overlay.src = img.src;
+      overlay.style.display = 'block';
+      positionLogoOverlay();
+      setupLogoDrag(overlay);
+      showPreview();
+      KhoTool.utils.showToast('Kéo logo để đặt vị trí');
+    };
+    img.src = ev.target.result;
+  };
+  reader.readAsDataURL(file);
+}
+
 function initCropBox() {
   const img = originalImage;
   cropBox.style.display = 'block';
@@ -107,6 +107,7 @@ function initCropBox() {
 }
 
 function setupDrag() {
+  let startX, startY, startLeft, startTop;
   cropBox.onmousedown = function (e) {
     if (e.target !== cropBox) return;
     isDragging = true;
@@ -116,7 +117,6 @@ function setupDrag() {
     startTop = parseFloat(cropBox.style.top);
     e.preventDefault();
   };
-
   document.onmousemove = function (e) {
     if (!isDragging) return;
     const img = originalImage;
@@ -129,7 +129,6 @@ function setupDrag() {
     cropBox.style.left = newLeft + 'px';
     cropBox.style.top = newTop + 'px';
   };
-
   document.onmouseup = function () {
     if (isDragging) showPreview();
     isDragging = false;
@@ -172,6 +171,8 @@ function setupLogoDrag(overlay) {
     if (dragging) { dragging = false; showPreview(); }
   });
 }
+
+function getCroppedCanvas() {
   if (!originalImage) return null;
   const img = originalImage;
   const scaleX = img.naturalWidth / img.offsetWidth;
@@ -203,7 +204,6 @@ function showPreview() {
   if (!canvas) return;
   document.getElementById('m8-resultPreview').src = canvas.toDataURL('image/jpeg', 0.8);
   document.getElementById('m8-resultBox').classList.remove('hidden');
-  KhoTool.utils.showToast('Đã tạo xem trước');
 }
 
 function downloadResult() {
@@ -222,51 +222,10 @@ function downloadResult() {
     KhoTool.utils.incrementCounter();
   }, 'image/jpeg', quality);
 }
-  if (!originalImage) return;
-  const img = originalImage;
-  const scaleX = img.naturalWidth / img.offsetWidth;
-  const scaleY = img.naturalHeight / img.offsetHeight;
-
-  const x = parseFloat(cropBox.style.left) * scaleX;
-  const y = parseFloat(cropBox.style.top) * scaleY;
-  const w = parseFloat(cropBox.style.width) * scaleX;
-  const h = parseFloat(cropBox.style.height) * scaleY;
-
-  const canvas = document.createElement('canvas');
-  canvas.width = w;
-  canvas.height = h;
-  const ctx = canvas.getContext('2d');
-  ctx.drawImage(img, x, y, w, h, 0, 0, w, h);
-
-  // Draw logo if present
-  if (logoImage) {
-    const logoSizePct = parseInt(document.getElementById('m8-logoSize').value) / 100;
-    const logoW = w * logoSizePct;
-    const logoH = logoW * (logoImage.height / logoImage.width);
-    const lx = logoPos.x * w;
-    const ly = logoPos.y * h;
-    ctx.drawImage(logoImage, lx, ly, logoW, logoH);
-  }
-
-  const quality = parseInt(document.getElementById('m8-quality').value) / 100;
-
-  canvas.toBlob(blob => {
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'image_compressed.jpg';
-    a.click();
-    URL.revokeObjectURL(url);
-    const sizeKB = Math.round(blob.size / 1024);
-    KhoTool.utils.showToast(`Đã tải (${sizeKB} KB)`);
-    KhoTool.utils.incrementCounter();
-  }, 'image/jpeg', quality);
-}
 
 async function processBatch() {
   if (imageFiles.length <= 1) return;
   KhoTool.utils.showToast(`Đang xử lý ${imageFiles.length} ảnh...`);
-  
   for (let i = 0; i < imageFiles.length; i++) {
     await new Promise(resolve => {
       const reader = new FileReader();
@@ -286,14 +245,12 @@ async function processBatch() {
           const sx = (img.width - cw) / 2;
           const sy = (img.height - ch) / 2;
           ctx.drawImage(img, sx, sy, cw, ch, 0, 0, cw, ch);
-          
           if (logoImage) {
             const logoSizePct = parseInt(document.getElementById('m8-logoSize').value) / 100;
             const logoW = cw * logoSizePct;
             const logoH = logoW * (logoImage.height / logoImage.width);
             ctx.drawImage(logoImage, logoPos.x * cw, logoPos.y * ch, logoW, logoH);
           }
-          
           const quality = parseInt(document.getElementById('m8-quality').value) / 100;
           canvas.toBlob(blob => {
             const url = URL.createObjectURL(blob);
@@ -313,8 +270,14 @@ async function processBatch() {
   KhoTool.utils.showToast(`Đã xử lý ${imageFiles.length} ảnh`);
   KhoTool.utils.incrementCounter();
 }
+
+function reset() {
   document.getElementById('m8-imageInput').value = '';
   document.getElementById('m8-workspace').classList.add('hidden');
+  document.getElementById('m8-resultBox').classList.add('hidden');
   originalImage = null;
-  cropBox.style.display = 'none';
+  imageFiles = [];
+  if (cropBox) cropBox.style.display = 'none';
+  const overlay = document.getElementById('m8-logoOverlay');
+  if (overlay) overlay.style.display = 'none';
 }

@@ -165,6 +165,8 @@ function generateInsight(sorted, totals, grandTotal) {
 
   return lines.join('<br>');
 }
+
+function renderResult(totals, grandTotal, validRows, topN, title, timeTotals, dateCol) {
   let sorted = Object.keys(totals).sort((a, b) => totals[b] - totals[a]);
   if (topN > 0) sorted = sorted.slice(0, topN);
   const values = sorted.map(k => totals[k]);
