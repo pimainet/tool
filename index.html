@@ -1,180 +1,210 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Kho Tool Cộng Đồng • Hệ Sinh Thái Tự Động Hóa</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
-    body { font-family: 'Plus Jakarta Sans', sans-serif; }
-    ::-webkit-scrollbar { width: 6px; height: 6px; }
-    ::-webkit-scrollbar-track { background: #070b14; }
-    ::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 3px; }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kho Tool Cộng Đồng: công cụ miễn phí lọc số điện thoại, báo cáo Excel, xử lý ảnh</title>
+<meta name="description" content="Bộ công cụ miễn phí cho doanh nghiệp nhỏ Việt Nam: lọc số điện thoại, tạo báo cáo từ Excel, cắt ảnh chèn logo hàng loạt, chuẩn hóa tiếng Việt. Xử lý ngay trên trình duyệt.">
+<meta name="robots" content="index,follow">
+
+<meta property="og:type" content="website">
+<meta property="og:locale" content="vi_VN">
+<meta property="og:site_name" content="Kho Tool Cộng Đồng">
+<meta property="og:title" content="Kho Tool Cộng Đồng: công cụ miễn phí lọc số điện thoại, báo cáo Excel, xử lý ảnh">
+<meta property="og:description" content="Bộ công cụ miễn phí cho doanh nghiệp nhỏ Việt Nam: lọc số điện thoại, tạo báo cáo từ Excel, cắt ảnh chèn logo hàng loạt, chuẩn hóa tiếng Việt. Xử lý ngay trên trình duyệt.">
+
+<meta name="twitter:card" content="summary">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"ItemList","name":"Kho Tool Cộng Đồng","itemListElement":[{"@type":"ListItem","position":1,"name":"Tạo báo cáo dashboard từ file Excel hoặc CSV"},{"@type":"ListItem","position":2,"name":"Cắt ảnh, chèn logo và nén ảnh hàng loạt"},{"@type":"ListItem","position":3,"name":"Lọc số điện thoại từ văn bản, xóa số trùng"},{"@type":"ListItem","position":4,"name":"Tách việc và người phụ trách từ biên bản họp"},{"@type":"ListItem","position":5,"name":"Chuẩn hóa tiếng Việt: bỏ dấu, sửa chữ lỗi, tạo slug"},{"@type":"ListItem","position":6,"name":"Tạo mã VietQR chuyển khoản"},{"@type":"ListItem","position":7,"name":"Đổi định dạng Excel, CSV, JSON và ảnh"}]}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<script src="https://cdn.tailwindcss.com"></script>
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+  body { font-family: 'Plus Jakarta Sans', sans-serif; }
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { background: #070b14; }
+  ::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 3px; }
+  input[type=file]::file-selector-button { background: #1e293b; color: #e2e8f0; border: 1px solid #334155; border-radius: 10px; padding: 7px 14px; margin-right: 10px; font-size: 12px; font-weight: 600; cursor: pointer; }
+  input[type=file]::file-selector-button:hover { background: #334155; }
+</style>
 </head>
 <body class="bg-[#070b14] text-slate-100 min-h-screen flex flex-col antialiased">
-
-  <header class="bg-[#070b14]/90 backdrop-blur-xl border-b border-slate-800/80 py-4 px-6 sticky top-0 z-50">
-    <div class="max-w-7xl mx-auto flex justify-between items-center">
-      <div class="flex items-center gap-3 cursor-pointer" onclick="showHub()">
-        <div class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-cyan-500 via-indigo-500 to-purple-600 flex items-center justify-center shadow-lg shadow-cyan-500/20 font-black text-white text-lg">⚡</div>
-        <div>
-          <h1 class="text-sm font-extrabold tracking-tight text-white">KHO TOOL <span class="text-cyan-400 font-normal">CỘNG ĐỒNG</span></h1>
-          <p class="text-[10px] text-slate-400">Hệ sinh thái tool tự động hóa cho chuyên gia</p>
-        </div>
+<header class="bg-[#070b14]/90 backdrop-blur-xl border-b border-slate-800/80 py-4 px-6 sticky top-0 z-50">
+  <div class="max-w-7xl mx-auto flex justify-between items-center gap-3">
+    <a href="/" class="flex items-center gap-3">
+      <div class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-cyan-500 via-indigo-500 to-purple-600 flex items-center justify-center shadow-lg shadow-cyan-500/20 font-black text-white text-lg">⚡</div>
+      <div>
+        <p class="text-sm font-extrabold tracking-tight text-white whitespace-nowrap">KHO TOOL <span class="text-cyan-400 font-normal">CỘNG ĐỒNG</span></p>
+        <p class="text-[10px] text-slate-400 hidden sm:block">Công cụ miễn phí cho doanh nghiệp nhỏ</p>
       </div>
-      <div class="flex items-center gap-4">
-        <button id="backBtn" onclick="showHub()" class="hidden text-xs bg-slate-800 hover:bg-slate-700 text-slate-200 font-semibold px-4 py-2 rounded-xl border border-slate-700">← Về Hub</button>
-        <span class="text-[10px] bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 px-3 py-1 rounded-full font-semibold hidden sm:inline">Xử lý trên trình duyệt</span>
-      </div>
-    </div>
-  </header>
-
-  <main class="max-w-7xl mx-auto px-4 py-8 flex-grow w-full">
-    <div id="hub-view" class="space-y-10">
-      <!-- Hero -->
-      <div class="relative bg-gradient-to-b from-slate-900/80 to-slate-950/40 border border-slate-800/80 rounded-3xl p-8 sm:p-12 text-center space-y-6 overflow-hidden">
-        <div class="absolute -right-20 -top-20 w-72 h-72 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none"></div>
-        <div class="absolute -left-20 -bottom-20 w-72 h-72 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none"></div>
-
-        <div class="inline-flex items-center gap-2 bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 text-xs font-bold px-4 py-1.5 rounded-full">
-          Xử lý ngay trên trình duyệt của bạn
-        </div>
-
-        <h2 class="text-3xl sm:text-5xl font-black text-white tracking-tight max-w-3xl mx-auto leading-tight">
-          Giải phóng hiệu suất với <span class="bg-gradient-to-r from-cyan-400 via-indigo-400 to-purple-400 bg-clip-text text-transparent">Hệ thống Tool thực chiến</span>
-        </h2>
-
-        <p class="text-xs sm:text-sm text-slate-400 max-w-2xl mx-auto leading-relaxed">
-          Tập hợp các công cụ giải quyết lọc dữ liệu, tạo mã QR, báo cáo, chuẩn hóa văn bản và xử lý ảnh.
-        </p>
-
-        <!-- Stats -->
-        <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 max-w-3xl mx-auto pt-2">
-          <div class="bg-slate-900/80 border border-slate-800 p-3 rounded-2xl">
-            <span id="realTaskCounter" class="text-lg font-black text-cyan-400 block">0</span>
-            <span class="text-[10px] text-slate-400">Lượt dùng trên máy này</span>
-          </div>
-          <div class="bg-slate-900/80 border border-slate-800 p-3 rounded-2xl">
-            <span id="liveCount" class="text-lg font-black text-emerald-400 block">0</span>
-            <span class="text-[10px] text-slate-400">Tool đã sẵn sàng</span>
-          </div>
-          <div class="bg-slate-900/80 border border-slate-800 p-3 rounded-2xl">
-            <span id="betaCount" class="text-lg font-black text-amber-400 block">0</span>
-            <span class="text-[10px] text-slate-400">Đang thử nghiệm</span>
-          </div>
-          <div class="bg-slate-900/80 border border-slate-800 p-3 rounded-2xl">
-            <span class="text-lg font-black text-indigo-400 block">Cục bộ</span>
-            <span class="text-[10px] text-slate-400">File không tải lên server</span>
-          </div>
-        </div>
-
-        <!-- Search -->
-        <div class="max-w-md mx-auto pt-2">
-          <input id="searchInput" type="text" placeholder="Tìm tool (Excel, QR, Data, Ảnh, Meeting...)" 
-                 class="w-full bg-slate-900/90 border border-slate-700/80 rounded-2xl px-4 py-3 text-xs text-slate-200 focus:outline-none focus:ring-2 focus:ring-cyan-500">
-        </div>
-      </div>
-
-      <!-- Tools Grid -->
-      <div class="space-y-4">
-        <div class="flex justify-between items-center">
-          <h3 class="text-xs font-extrabold uppercase tracking-widest text-slate-400">Danh mục Tool</h3>
-          <span class="text-xs text-cyan-400 font-semibold">Bấm vào thẻ để mở</span>
-        </div>
-        <div id="toolsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
-      </div>
-    </div>
-
-    <div id="tool-view" class="hidden">
-      <div id="tool-container"></div>
-    </div>
-  </main>
-
-  <footer class="text-center py-6 text-xs text-slate-500 border-t border-slate-800/80">
-    Kho Tool Cộng Đồng • Hầu hết tool xử lý ngay trong trình duyệt, không lưu file lên server • Tool có gọi dịch vụ ngoài sẽ được ghi rõ trên thẻ
-  </footer>
-
-  <script src="./core/shared.js"></script>
-  <script src="./core/loader.js"></script>
-  <script>
-    let tools = [];
-
-    async function init() {
-      try {
-        const res = await fetch('./manifest.json');
-        tools = await res.json();
-        renderTools(tools);
-        const count = localStorage.getItem('ktcd_global_counter') || '0';
-        const el = document.getElementById('realTaskCounter');
-        if (el) el.textContent = parseInt(count).toLocaleString('vi-VN');
-        document.getElementById('liveCount').textContent = tools.filter(t => t.status === 'live').length;
-        document.getElementById('betaCount').textContent = tools.filter(t => t.status !== 'live').length;
-      } catch (e) {
-        document.getElementById('toolsGrid').innerHTML = '<p class="text-rose-400 text-center">Không tải được danh sách tool.</p>';
-      }
-    }
-
-    function renderTools(list) {
-      const grid = document.getElementById('toolsGrid');
-      if (!list.length) {
-        grid.innerHTML = '<p class="text-slate-500 col-span-full text-center py-10">Không tìm thấy tool nào.</p>';
-        return;
-      }
-      grid.innerHTML = list.map(t => `
-        <div onclick="openTool('${t.id}')" class="tool-card group bg-slate-900/60 hover:bg-slate-900/90 border border-slate-800 hover:border-cyan-500/50 p-6 rounded-2xl cursor-pointer transition-all duration-300 space-y-4 shadow-lg hover:shadow-cyan-500/10 flex flex-col justify-between">
-          <div class="space-y-3">
-            <div class="flex justify-between items-center">
-              <span class="text-2xl">${t.icon || '🔧'}</span>
-              <span class="text-[10px] px-2 py-0.5 rounded-lg font-semibold ${
-                t.status === 'live' ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20' : 'bg-amber-500/10 text-amber-400 border border-amber-500/20'
-              }">${t.status === 'live' ? 'Live' : 'Beta'}</span>
-            </div>
-            <h4 class="text-base font-bold text-white group-hover:text-cyan-400 transition">${t.name}</h4>
-            <p class="text-xs text-slate-400 leading-relaxed">${t.description || ''}</p>
-            ${t.external ? `<p class="text-[10px] text-sky-400/90 bg-sky-500/10 border border-sky-500/20 rounded-lg px-2 py-1">Có gọi dịch vụ ngoài: ${t.external}</p>` : ''}
-          </div>
-          <div class="pt-4 border-t border-slate-800/80 flex justify-between items-center text-[11px] font-semibold text-cyan-400">
-            <span>Mở công cụ</span>
-            <span class="group-hover:translate-x-1 transition">→</span>
-          </div>
-        </div>
-      `).join('');
-    }
-
-    function openTool(id) {
-      const tool = tools.find(t => t.id === id);
-      if (!tool) return;
-      document.getElementById('hub-view').classList.add('hidden');
-      document.getElementById('tool-view').classList.remove('hidden');
-      document.getElementById('backBtn').classList.remove('hidden');
-      window.scrollTo({ top: 0 });
-      window.KhoTool.loader.load(tool);
-    }
-
-    function showHub() {
-      window.KhoTool.loader.unload();
+    </a>
+    <div class="flex items-center gap-3">
       
-      document.getElementById('tool-view').classList.add('hidden');
-      document.getElementById('hub-view').classList.remove('hidden');
-      document.getElementById('backBtn').classList.add('hidden');
-      const el = document.getElementById('realTaskCounter');
-      if (el) el.textContent = parseInt(localStorage.getItem('ktcd_global_counter') || '0').toLocaleString('vi-VN');
-    }
+      <span class="text-[10px] bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 px-3 py-1 rounded-full font-semibold hidden sm:inline">Xử lý trên trình duyệt</span>
+    </div>
+  </div>
+</header>
+<main class="max-w-7xl mx-auto px-4 py-8 flex-grow w-full space-y-12">
+  <section class="relative bg-gradient-to-b from-slate-900/80 to-slate-950/40 border border-slate-800/80 rounded-3xl p-8 sm:p-12 text-center space-y-6 overflow-hidden">
+    <div class="absolute -right-20 -top-20 w-72 h-72 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none"></div>
+    <div class="absolute -left-20 -bottom-20 w-72 h-72 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none"></div>
+    <div class="inline-flex items-center gap-2 bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 text-xs font-bold px-4 py-1.5 rounded-full">Xử lý ngay trên trình duyệt của bạn</div>
+    <h1 class="text-3xl sm:text-5xl font-black text-white tracking-tight max-w-3xl mx-auto leading-tight">
+      Công cụ thực chiến cho <span class="bg-gradient-to-r from-cyan-400 via-indigo-400 to-purple-400 bg-clip-text text-transparent">doanh nghiệp nhỏ</span>
+    </h1>
+    <p class="text-xs sm:text-sm text-slate-400 max-w-2xl mx-auto leading-relaxed">
+      Lọc số điện thoại, tạo báo cáo từ Excel, xử lý ảnh sản phẩm, chuẩn hóa tiếng Việt. Miễn phí, không cần đăng ký.
+    </p>
+    <div class="max-w-md mx-auto pt-2">
+      <label for="searchInput" class="sr-only">Tìm công cụ</label>
+      <input id="searchInput" type="search" placeholder="Tìm công cụ (số điện thoại, Excel, ảnh, tiếng Việt...)" class="w-full bg-slate-900/90 border border-slate-700/80 rounded-2xl px-4 py-3 text-xs text-slate-200 focus:outline-none focus:ring-2 focus:ring-cyan-500">
+    </div>
+  </section>
 
-    document.getElementById('searchInput').addEventListener('input', function() {
-      const q = this.value.toLowerCase();
-      const filtered = tools.filter(t => 
-        t.name.toLowerCase().includes(q) || 
-        (t.description || '').toLowerCase().includes(q)
-      );
-      renderTools(filtered);
+  <section class="space-y-4" data-group>
+    <h2 class="text-xs font-extrabold uppercase tracking-widest text-slate-400">Công cụ chính</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+<a href="/bao-cao-dashboard-tu-excel/" data-search="executive dashboard báo cáo dashboard tạo báo cáo dashboard từ file excel hoặc csv tải file excel hoặc csv, tự tạo biểu đồ, bảng chi tiết và báo cáo in pdf. hiểu số kiểu việt nam (1.234.567) và ngày dd/mm/yyyy. xử lý ngay trên trình duyệt." class="tool-card group bg-slate-900/60 hover:bg-slate-900/90 border border-slate-800 hover:border-cyan-500/50 p-6 rounded-2xl transition-all duration-300 space-y-4 shadow-lg hover:shadow-cyan-500/10 flex flex-col justify-between">
+  <div class="space-y-3">
+    <div class="flex justify-between items-center">
+      <span class="text-2xl" aria-hidden="true">📊</span>
+      <span class="text-[10px] px-2 py-0.5 rounded-lg font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">Live</span>
+    </div>
+    <h3 class="text-base font-bold text-white group-hover:text-cyan-400 transition">Báo cáo dashboard</h3>
+    <p class="text-xs text-slate-400 leading-relaxed">Tải file Excel hoặc CSV, tự tạo biểu đồ, bảng chi tiết và báo cáo in PDF. Hiểu số kiểu Việt Nam (1.234.567) và ngày dd/mm/yyyy. Xử lý ngay trên trình duyệt.</p>
+    
+  </div>
+  <div class="pt-4 border-t border-slate-800/80 flex justify-between items-center text-[11px] font-semibold text-cyan-400">
+    <span>Mở công cụ</span><span class="group-hover:translate-x-1 transition" aria-hidden="true">→</span>
+  </div>
+</a>
+<a href="/cat-anh-chen-logo-hang-loat/" data-search="smart image studio cắt ảnh, chèn logo cắt ảnh, chèn logo và nén ảnh hàng loạt cắt ảnh theo khung 1:1, 9:16, 16:9, 4:5 hoặc tự do, chèn logo đúng vị trí, nén ảnh và xử lý nhiều ảnh cùng lúc. chạy trên trình duyệt, dùng được trên điện thoại." class="tool-card group bg-slate-900/60 hover:bg-slate-900/90 border border-slate-800 hover:border-cyan-500/50 p-6 rounded-2xl transition-all duration-300 space-y-4 shadow-lg hover:shadow-cyan-500/10 flex flex-col justify-between">
+  <div class="space-y-3">
+    <div class="flex justify-between items-center">
+      <span class="text-2xl" aria-hidden="true">🖼️</span>
+      <span class="text-[10px] px-2 py-0.5 rounded-lg font-semibold bg-amber-500/10 text-amber-400 border border-amber-500/20">Beta</span>
+    </div>
+    <h3 class="text-base font-bold text-white group-hover:text-cyan-400 transition">Cắt ảnh, chèn logo</h3>
+    <p class="text-xs text-slate-400 leading-relaxed">Cắt ảnh theo khung 1:1, 9:16, 16:9, 4:5 hoặc tự do, chèn logo đúng vị trí, nén ảnh và xử lý nhiều ảnh cùng lúc. Chạy trên trình duyệt, dùng được trên điện thoại.</p>
+    
+  </div>
+  <div class="pt-4 border-t border-slate-800/80 flex justify-between items-center text-[11px] font-semibold text-cyan-400">
+    <span>Mở công cụ</span><span class="group-hover:translate-x-1 transition" aria-hidden="true">→</span>
+  </div>
+</a>
+<a href="/loc-so-dien-thoai/" data-search="smart data cleaner lọc số điện thoại lọc số điện thoại từ văn bản, xóa số trùng dán văn bản lộn xộn, tự tìm số điện thoại việt nam (03, 05, 07, 08, 09 hoặc +84), chuẩn hóa về một dạng và loại số trùng. xử lý ngay trên trình duyệt." class="tool-card group bg-slate-900/60 hover:bg-slate-900/90 border border-slate-800 hover:border-cyan-500/50 p-6 rounded-2xl transition-all duration-300 space-y-4 shadow-lg hover:shadow-cyan-500/10 flex flex-col justify-between">
+  <div class="space-y-3">
+    <div class="flex justify-between items-center">
+      <span class="text-2xl" aria-hidden="true">🧹</span>
+      <span class="text-[10px] px-2 py-0.5 rounded-lg font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">Live</span>
+    </div>
+    <h3 class="text-base font-bold text-white group-hover:text-cyan-400 transition">Lọc số điện thoại</h3>
+    <p class="text-xs text-slate-400 leading-relaxed">Dán văn bản lộn xộn, tự tìm số điện thoại Việt Nam (03, 05, 07, 08, 09 hoặc +84), chuẩn hóa về một dạng và loại số trùng. Xử lý ngay trên trình duyệt.</p>
+    
+  </div>
+  <div class="pt-4 border-t border-slate-800/80 flex justify-between items-center text-[11px] font-semibold text-cyan-400">
+    <span>Mở công cụ</span><span class="group-hover:translate-x-1 transition" aria-hidden="true">→</span>
+  </div>
+</a>
+<a href="/tach-viec-tu-bien-ban-hop/" data-search="smart meeting assistant tách việc từ biên bản tách việc và người phụ trách từ biên bản họp dán biên bản họp, tự tách dòng việc cần làm, người phụ trách và hạn (trước thứ 6, ngày 15/11...). bộ lọc theo quy tắc chữ, chạy trên trình duyệt, không dùng ai." class="tool-card group bg-slate-900/60 hover:bg-slate-900/90 border border-slate-800 hover:border-cyan-500/50 p-6 rounded-2xl transition-all duration-300 space-y-4 shadow-lg hover:shadow-cyan-500/10 flex flex-col justify-between">
+  <div class="space-y-3">
+    <div class="flex justify-between items-center">
+      <span class="text-2xl" aria-hidden="true">🎙️</span>
+      <span class="text-[10px] px-2 py-0.5 rounded-lg font-semibold bg-amber-500/10 text-amber-400 border border-amber-500/20">Beta</span>
+    </div>
+    <h3 class="text-base font-bold text-white group-hover:text-cyan-400 transition">Tách việc từ biên bản</h3>
+    <p class="text-xs text-slate-400 leading-relaxed">Dán biên bản họp, tự tách dòng việc cần làm, người phụ trách và hạn (trước thứ 6, ngày 15/11...). Bộ lọc theo quy tắc chữ, chạy trên trình duyệt, không dùng AI.</p>
+    
+  </div>
+  <div class="pt-4 border-t border-slate-800/80 flex justify-between items-center text-[11px] font-semibold text-cyan-400">
+    <span>Mở công cụ</span><span class="group-hover:translate-x-1 transition" aria-hidden="true">→</span>
+  </div>
+</a>
+<a href="/chuan-hoa-tieng-viet/" data-search="smart text formatter chuẩn hóa tiếng việt chuẩn hóa tiếng việt: bỏ dấu, sửa chữ lỗi, tạo slug chuẩn hóa unicode tiếng việt, bỏ dấu, tạo slug, sửa chữ bị lỗi (ä‘, áº...) và sửa file csv/txt bị lỗi font. chạy ngay trên trình duyệt." class="tool-card group bg-slate-900/60 hover:bg-slate-900/90 border border-slate-800 hover:border-cyan-500/50 p-6 rounded-2xl transition-all duration-300 space-y-4 shadow-lg hover:shadow-cyan-500/10 flex flex-col justify-between">
+  <div class="space-y-3">
+    <div class="flex justify-between items-center">
+      <span class="text-2xl" aria-hidden="true">✍️</span>
+      <span class="text-[10px] px-2 py-0.5 rounded-lg font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">Live</span>
+    </div>
+    <h3 class="text-base font-bold text-white group-hover:text-cyan-400 transition">Chuẩn hóa tiếng Việt</h3>
+    <p class="text-xs text-slate-400 leading-relaxed">Chuẩn hóa Unicode tiếng Việt, bỏ dấu, tạo slug, sửa chữ bị lỗi (Ä‘, áº...) và sửa file CSV/TXT bị lỗi font. Chạy ngay trên trình duyệt.</p>
+    
+  </div>
+  <div class="pt-4 border-t border-slate-800/80 flex justify-between items-center text-[11px] font-semibold text-cyan-400">
+    <span>Mở công cụ</span><span class="group-hover:translate-x-1 transition" aria-hidden="true">→</span>
+  </div>
+</a>
+    </div>
+  </section>
+
+  <section class="space-y-4" data-group>
+    <h2 class="text-xs font-extrabold uppercase tracking-widest text-slate-400">Tiện ích phụ</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+<a href="/tao-ma-vietqr/" data-search="quickvietqr generator tạo mã vietqr tạo mã vietqr chuyển khoản tạo mã vietqr với số tài khoản, số tiền và nội dung chuyển khoản, lưu tài khoản để dùng lại. lưu ý: ảnh qr được lấy từ img.vietqr.io." class="tool-card group bg-slate-900/60 hover:bg-slate-900/90 border border-slate-800 hover:border-cyan-500/50 p-6 rounded-2xl transition-all duration-300 space-y-4 shadow-lg hover:shadow-cyan-500/10 flex flex-col justify-between">
+  <div class="space-y-3">
+    <div class="flex justify-between items-center">
+      <span class="text-2xl" aria-hidden="true">💳</span>
+      <span class="text-[10px] px-2 py-0.5 rounded-lg font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">Live</span>
+    </div>
+    <h3 class="text-base font-bold text-white group-hover:text-cyan-400 transition">Tạo mã VietQR</h3>
+    <p class="text-xs text-slate-400 leading-relaxed">Tạo mã VietQR với số tài khoản, số tiền và nội dung chuyển khoản, lưu tài khoản để dùng lại. Lưu ý: ảnh QR được lấy từ img.vietqr.io.</p>
+    <p class="text-[10px] text-sky-400/90 bg-sky-500/10 border border-sky-500/20 rounded-lg px-2 py-1">Có gọi dịch vụ ngoài: img.vietqr.io (số tài khoản, số tiền, nội dung được gửi để tạo ảnh QR)</p>
+  </div>
+  <div class="pt-4 border-t border-slate-800/80 flex justify-between items-center text-[11px] font-semibold text-cyan-400">
+    <span>Mở công cụ</span><span class="group-hover:translate-x-1 transition" aria-hidden="true">→</span>
+  </div>
+</a>
+<a href="/doi-dinh-dang-file/" data-search="universal converter đổi định dạng file đổi định dạng excel, csv, json và ảnh chuyển qua lại excel, csv, json và đổi định dạng ảnh hàng loạt. csv xuất ra có bom utf-8 nên excel đọc đúng tiếng việt. xử lý ngay trên trình duyệt." class="tool-card group bg-slate-900/60 hover:bg-slate-900/90 border border-slate-800 hover:border-cyan-500/50 p-6 rounded-2xl transition-all duration-300 space-y-4 shadow-lg hover:shadow-cyan-500/10 flex flex-col justify-between">
+  <div class="space-y-3">
+    <div class="flex justify-between items-center">
+      <span class="text-2xl" aria-hidden="true">🔄</span>
+      <span class="text-[10px] px-2 py-0.5 rounded-lg font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">Live</span>
+    </div>
+    <h3 class="text-base font-bold text-white group-hover:text-cyan-400 transition">Đổi định dạng file</h3>
+    <p class="text-xs text-slate-400 leading-relaxed">Chuyển qua lại Excel, CSV, JSON và đổi định dạng ảnh hàng loạt. CSV xuất ra có BOM UTF-8 nên Excel đọc đúng tiếng Việt. Xử lý ngay trên trình duyệt.</p>
+    
+  </div>
+  <div class="pt-4 border-t border-slate-800/80 flex justify-between items-center text-[11px] font-semibold text-cyan-400">
+    <span>Mở công cụ</span><span class="group-hover:translate-x-1 transition" aria-hidden="true">→</span>
+  </div>
+</a>
+    </div>
+  </section>
+
+  <p id="noResult" class="hidden text-slate-500 text-center py-6 text-sm">Không tìm thấy công cụ nào.</p>
+
+  <section>
+    <a href="/lead-loop/" class="block bg-gradient-to-r from-indigo-950/70 to-slate-900/60 border border-indigo-500/30 hover:border-indigo-400/60 rounded-3xl p-6 sm:p-8 transition space-y-2">
+      <div class="flex items-center gap-3"><span class="text-2xl" aria-hidden="true">🔁</span><span class="text-[10px] px-2 py-0.5 rounded-lg font-semibold bg-indigo-500/10 text-indigo-300 border border-indigo-500/30">Đang xây dựng</span></div>
+      <h2 class="text-lg font-bold text-white">Lead Loop: không bỏ sót khách hàng tiềm năng</h2>
+      <p class="text-xs text-slate-400 leading-relaxed max-w-2xl">Gom lead từ tin nhắn và bình luận, báo ngay qua Telegram, nhắc lại khi chưa ai phản hồi, và báo cáo tốc độ phản hồi mỗi tuần.</p>
+      <span class="inline-block text-xs font-semibold text-indigo-300 pt-1">Xem chi tiết →</span>
+    </a>
+  </section>
+</main>
+<footer class="text-center py-6 px-4 text-xs text-slate-500 border-t border-slate-800/80">
+  Kho Tool Cộng Đồng • Hầu hết công cụ xử lý ngay trong trình duyệt, không lưu file lên máy chủ • Công cụ có gọi dịch vụ ngoài được ghi rõ trên trang
+</footer>
+<script>
+  (function () {
+    var input = document.getElementById('searchInput');
+    var cards = Array.prototype.slice.call(document.querySelectorAll('.tool-card'));
+    var groups = Array.prototype.slice.call(document.querySelectorAll('[data-group]'));
+    input.addEventListener('input', function () {
+      var q = input.value.trim().toLowerCase();
+      var shown = 0;
+      cards.forEach(function (c) {
+        var ok = !q || c.getAttribute('data-search').indexOf(q) !== -1;
+        c.classList.toggle('hidden', !ok);
+        if (ok) shown++;
+      });
+      groups.forEach(function (g) {
+        g.classList.toggle('hidden', !g.querySelector('.tool-card:not(.hidden)'));
+      });
+      document.getElementById('noResult').classList.toggle('hidden', shown > 0);
     });
-
-    init();
-  </script>
+  })();
+</script>
 </body>
 </html>

@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chuẩn hóa tiếng Việt online: bỏ dấu, sửa chữ lỗi font, tạo slug, sửa file CSV | Kho Tool Cộng Đồng</title>
+<meta name="description" content="Chuẩn hóa Unicode tiếng Việt, bỏ dấu, tạo slug, sửa chữ bị lỗi (Ä‘, áº...) và sửa file CSV/TXT bị lỗi font. Chạy ngay trên trình duyệt.">
+<meta name="robots" content="index,follow">
+
+<meta property="og:type" content="website">
+<meta property="og:locale" content="vi_VN">
+<meta property="og:site_name" content="Kho Tool Cộng Đồng">
+<meta property="og:title" content="Chuẩn hóa tiếng Việt online: bỏ dấu, sửa chữ lỗi font, tạo slug, sửa file CSV | Kho Tool Cộng Đồng">
+<meta property="og:description" content="Chuẩn hóa Unicode tiếng Việt, bỏ dấu, tạo slug, sửa chữ bị lỗi (Ä‘, áº...) và sửa file CSV/TXT bị lỗi font. Chạy ngay trên trình duyệt.">
+
+<meta name="twitter:card" content="summary">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Chuẩn hóa tiếng Việt: bỏ dấu, sửa chữ lỗi, tạo slug","description":"Chuẩn hóa Unicode tiếng Việt, bỏ dấu, tạo slug, sửa chữ bị lỗi (Ä‘, áº...) và sửa file CSV/TXT bị lỗi font. Chạy ngay trên trình duyệt.","applicationCategory":"BusinessApplication","operatingSystem":"Trình duyệt web","inLanguage":"vi","offers":{"@type":"Offer","price":"0","priceCurrency":"VND"}}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<script src="https://cdn.tailwindcss.com"></script>
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+  body { font-family: 'Plus Jakarta Sans', sans-serif; }
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { background: #070b14; }
+  ::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 3px; }
+  input[type=file]::file-selector-button { background: #1e293b; color: #e2e8f0; border: 1px solid #334155; border-radius: 10px; padding: 7px 14px; margin-right: 10px; font-size: 12px; font-weight: 600; cursor: pointer; }
+  input[type=file]::file-selector-button:hover { background: #334155; }
+</style>
+</head>
+<body class="bg-[#070b14] text-slate-100 min-h-screen flex flex-col antialiased">
+<header class="bg-[#070b14]/90 backdrop-blur-xl border-b border-slate-800/80 py-4 px-6 sticky top-0 z-50">
+  <div class="max-w-7xl mx-auto flex justify-between items-center gap-3">
+    <a href="/" class="flex items-center gap-3">
+      <div class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-cyan-500 via-indigo-500 to-purple-600 flex items-center justify-center shadow-lg shadow-cyan-500/20 font-black text-white text-lg">⚡</div>
+      <div>
+        <p class="text-sm font-extrabold tracking-tight text-white whitespace-nowrap">KHO TOOL <span class="text-cyan-400 font-normal">CỘNG ĐỒNG</span></p>
+        <p class="text-[10px] text-slate-400 hidden sm:block">Công cụ miễn phí cho doanh nghiệp nhỏ</p>
+      </div>
+    </a>
+    <div class="flex items-center gap-3">
+      <a href="/" class="text-xs bg-slate-800 hover:bg-slate-700 text-slate-200 font-semibold px-4 py-2 rounded-xl border border-slate-700 whitespace-nowrap">← Tất cả<span class="hidden sm:inline">&nbsp;công cụ</span></a>
+      <span class="text-[10px] bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 px-3 py-1 rounded-full font-semibold hidden sm:inline">Xử lý trên trình duyệt</span>
+    </div>
+  </div>
+</header>
+<main class="max-w-4xl mx-auto px-4 py-8 flex-grow w-full space-y-8">
+  <nav aria-label="Breadcrumb" class="text-xs text-slate-500"><a href="/" class="hover:text-cyan-400">Kho Tool</a> <span aria-hidden="true">›</span> <span class="text-slate-300">Chuẩn hóa tiếng Việt</span></nav>
+
+  <section class="space-y-3">
+    <div class="flex items-center gap-3"><span class="text-[10px] px-2 py-0.5 rounded-lg font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">Live</span></div>
+    <h1 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight leading-tight">Chuẩn hóa tiếng Việt: bỏ dấu, sửa chữ lỗi, tạo slug</h1>
+    <p class="text-sm text-slate-400 leading-relaxed max-w-3xl">Làm sạch văn bản tiếng Việt theo từng bước nối tiếp: sửa chữ lỗi mã hóa, chuẩn hóa Unicode, dọn khoảng trắng, đổi kiểu chữ, bỏ dấu hoặc tạo slug. Có thêm phần sửa file CSV/TXT bị lỗi font khi mở bằng Excel.</p>
+    
+  </section>
+
+  <noscript><p class="text-rose-400 text-sm">Công cụ cần bật JavaScript để hoạt động.</p></noscript>
+  <section id="tool-root" aria-label="Chuẩn hóa tiếng Việt">
+<div class="space-y-6">
+  <div class="bg-slate-900/60 border border-slate-800 rounded-3xl p-6 sm:p-8 space-y-4">
+    <div class="flex items-center justify-between">
+      <h2 class="text-xl font-bold text-white">Smart Text Formatter</h2>
+      <span class="text-[10px] bg-teal-500/10 text-teal-400 px-2 py-1 rounded-lg">v3</span>
+    </div>
+    <p class="text-xs text-slate-400">Chọn các bước cần áp dụng. Các bước chạy nối tiếp theo thứ tự trong danh sách.</p>
+
+    <textarea id="m7-input" rows="6" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-xs text-slate-200 focus:outline-none focus:ring-1 focus:ring-teal-500" placeholder="Dán văn bản cần chuẩn hóa..."></textarea>
+
+    <fieldset class="grid sm:grid-cols-2 gap-x-6 gap-y-2 text-xs text-slate-300">
+      <legend class="sr-only">Các bước xử lý</legend>
+      <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" id="m7-optMojibake" class="rounded border-slate-600 text-teal-500"> <span>1. Sửa chữ lỗi mã hóa (Ä‘, áº...)</span></label>
+      <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" id="m7-optNfc" class="rounded border-slate-600 text-teal-500" checked> <span>2. Chuẩn hóa Unicode (NFC)</span></label>
+      <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" id="m7-optSpace" class="rounded border-slate-600 text-teal-500" checked> <span>3. Xóa khoảng trắng thừa, dòng trống</span></label>
+      <label class="flex items-center gap-2"><span>4. Kiểu chữ:</span>
+        <select id="m7-optCase" class="bg-slate-950 border border-slate-800 rounded-lg p-1.5 text-slate-200">
+          <option value="none">Giữ nguyên</option>
+          <option value="sentence">Viết hoa đầu câu</option>
+          <option value="title">Viết Hoa Từng Từ</option>
+          <option value="upper">CHỮ HOA</option>
+          <option value="lower">chữ thường</option>
+        </select>
+      </label>
+      <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" id="m7-optAccent" class="rounded border-slate-600 text-teal-500"> <span>5. Bỏ dấu tiếng Việt</span></label>
+      <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" id="m7-optSlug" class="rounded border-slate-600 text-teal-500"> <span>6. Tạo slug (ví dụ: ban-an-go-soi)</span></label>
+    </fieldset>
+
+    <div class="flex flex-wrap gap-2">
+      <button id="m7-run" class="bg-teal-600 hover:bg-teal-500 text-white text-xs font-bold px-5 py-2.5 rounded-xl">Chuẩn hóa</button>
+      <button id="m7-clear" class="bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs px-4 py-2.5 rounded-xl">Xóa</button>
+    </div>
+
+    <div class="flex justify-between items-center">
+      <span class="text-[10px] text-slate-500" id="m7-status">Kết quả</span>
+      <button id="m7-copyBtn" class="hidden text-[10px] bg-slate-800 hover:bg-slate-700 px-3 py-1 rounded-lg text-slate-300">Sao chép</button>
+    </div>
+    <textarea id="m7-output" rows="6" readonly class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-xs text-slate-200 font-mono"></textarea>
+  </div>
+
+  <div class="bg-slate-900/60 border border-slate-800 rounded-3xl p-6 sm:p-8 space-y-4">
+    <h2 class="text-base font-bold text-white">Sửa file CSV / TXT bị lỗi font</h2>
+    <p class="text-xs text-slate-400">Dùng khi mở file bằng Excel thấy chữ lỗi như "Ä‘Æ°á»ng" hoặc "Vi?t". Công cụ tự nhận diện bảng mã, hiển thị xem thử và cho tải bản UTF-8 có BOM để Excel đọc đúng.</p>
+
+    <input type="file" id="m7-fileInput" accept=".csv,.txt,.tsv,text/plain,text/csv" class="text-xs text-slate-300">
+
+    <label class="flex items-center gap-2 text-xs text-slate-300">
+      <span>Bảng mã nguồn:</span>
+      <select id="m7-encoding" class="bg-slate-950 border border-slate-800 rounded-lg p-1.5 text-slate-200">
+        <option value="auto">Tự nhận diện</option>
+        <option value="utf-8">UTF-8</option>
+        <option value="windows-1258">Windows-1258 (tiếng Việt cũ)</option>
+        <option value="windows-1252">Windows-1252 (Latin)</option>
+      </select>
+    </label>
+
+    <div id="m7-fileBox" class="hidden space-y-3">
+      <p id="m7-fileInfo" class="text-xs text-teal-300"></p>
+      <pre id="m7-filePreview" class="bg-slate-950 border border-slate-800 rounded-xl p-3 text-[11px] text-slate-300 overflow-x-auto whitespace-pre-wrap max-h-48"></pre>
+      <button id="m7-fileDownload" class="bg-teal-600 hover:bg-teal-500 text-white text-xs font-bold px-5 py-2.5 rounded-xl">Tải bản UTF-8 (có BOM)</button>
+    </div>
+  </div>
+</div>
+
+  </section>
+
+  <section class="grid md:grid-cols-2 gap-6">
+    <div class="bg-slate-900/40 border border-slate-800 rounded-2xl p-6 space-y-3">
+      <h2 class="text-sm font-bold text-white">Cách dùng</h2>
+      <ol class="list-decimal list-inside space-y-2 text-xs text-slate-300 leading-relaxed">
+        <li>Dán văn bản, tick các bước cần áp dụng rồi bấm Chuẩn hóa.</li>
+        <li>Muốn sửa cả file: tải file CSV hoặc TXT lên, xem thử nội dung rồi tải bản UTF-8 về.</li>
+        <li>Mở file đã sửa bằng Excel, tiếng Việt sẽ hiển thị đúng.</li>
+      </ol>
+    </div>
+    <div class="bg-slate-900/40 border border-slate-800 rounded-2xl p-6 space-y-4">
+      <h2 class="text-sm font-bold text-white">Câu hỏi thường gặp</h2>
+      <div><h3 class="text-xs font-semibold text-slate-200">Chuẩn hóa Unicode (NFC) để làm gì?</h3><p class="text-xs text-slate-400 leading-relaxed mt-1">Cùng một chữ có thể lưu bằng ký tự dựng sẵn hoặc ký tự tổ hợp. Hai dạng nhìn giống nhau nhưng tìm kiếm và so khớp coi là khác nhau. NFC đưa về một dạng thống nhất.</p></div>
+      <div><h3 class="text-xs font-semibold text-slate-200">Chữ bị lỗi như Ä‘Æ°á»ng sửa được không?</h3><p class="text-xs text-slate-400 leading-relaxed mt-1">Thường là được, khi văn bản UTF-8 bị đọc nhầm bằng bảng mã Windows. Công cụ thử đảo ngược quá trình đó cho từng dòng. Dòng nào không đảo được sẽ giữ nguyên.</p></div>
+      <div><h3 class="text-xs font-semibold text-slate-200">Có chuyển được font VNI, TCVN3 cũ không?</h3><p class="text-xs text-slate-400 leading-relaxed mt-1">Chưa. Công cụ hiện chưa hỗ trợ chuyển bảng mã font cũ VNI hay TCVN3.</p></div>
+      <div><h3 class="text-xs font-semibold text-slate-200">File của tôi có bị tải lên không?</h3><p class="text-xs text-slate-400 leading-relaxed mt-1">Không. File được đọc và sửa ngay trong trình duyệt.</p></div>
+    </div>
+  </section>
+
+  <section class="bg-gradient-to-r from-indigo-950/70 to-slate-900/60 border border-indigo-500/30 rounded-3xl p-6 sm:p-8 space-y-2">
+  <h2 class="text-base font-bold text-white">Muốn không bỏ sót khách hàng tiềm năng?</h2>
+  <p class="text-xs text-slate-400 leading-relaxed max-w-2xl">Lead Loop (đang xây dựng) gom lead từ tin nhắn và bình luận, báo ngay qua Telegram và nhắc lại khi chưa ai phản hồi.</p>
+  <a href="/lead-loop/" class="inline-block text-xs font-semibold text-indigo-300 hover:text-indigo-200 pt-1">Xem Lead Loop →</a>
+</section>
+
+  <section class="space-y-3">
+    <h2 class="text-xs font-extrabold uppercase tracking-widest text-slate-400">Công cụ khác</h2>
+    <div class="grid sm:grid-cols-3 gap-4">
+      <a href="/bao-cao-dashboard-tu-excel/" class="bg-slate-900/60 hover:bg-slate-900/90 border border-slate-800 hover:border-cyan-500/50 rounded-2xl p-4 space-y-1 transition"><span class="text-lg" aria-hidden="true">📊</span><p class="text-sm font-semibold text-white">Báo cáo dashboard</p></a>
+      <a href="/cat-anh-chen-logo-hang-loat/" class="bg-slate-900/60 hover:bg-slate-900/90 border border-slate-800 hover:border-cyan-500/50 rounded-2xl p-4 space-y-1 transition"><span class="text-lg" aria-hidden="true">🖼️</span><p class="text-sm font-semibold text-white">Cắt ảnh, chèn logo</p></a>
+      <a href="/loc-so-dien-thoai/" class="bg-slate-900/60 hover:bg-slate-900/90 border border-slate-800 hover:border-cyan-500/50 rounded-2xl p-4 space-y-1 transition"><span class="text-lg" aria-hidden="true">🧹</span><p class="text-sm font-semibold text-white">Lọc số điện thoại</p></a>
+    </div>
+  </section>
+</main>
+<footer class="text-center py-6 px-4 text-xs text-slate-500 border-t border-slate-800/80">
+  Kho Tool Cộng Đồng • Hầu hết công cụ xử lý ngay trong trình duyệt, không lưu file lên máy chủ • Công cụ có gọi dịch vụ ngoài được ghi rõ trên trang
+</footer>
+<script src="/core/shared.js"></script>
+<script src="/tools/tool-07/tool.js"></script>
+<script>
+  if (window.KhoTool && typeof window.KhoTool.currentInit === 'function') window.KhoTool.currentInit();
+</script>
+</body>
+</html>

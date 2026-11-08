@@ -1,136 +1,181 @@
 [
   {
-    "id": "tool-01",
-    "name": "Smart Data Cleaner",
-    "description": "Lọc sạch số điện thoại từ văn bản thô, xóa trùng lặp.",
-    "icon": "🧹",
-    "color": "cyan",
-    "tags": [
-      "data",
-      "sđt",
-      "sales",
-      "lọc"
-    ],
-    "status": "live",
-    "path": "./tools/tool-01/"
-  },
-  {
-    "id": "tool-02",
-    "name": "QuickVietQR Generator",
-    "description": "Tạo mã VietQR thanh toán động với số tiền và nội dung.",
-    "icon": "💳",
-    "color": "emerald",
-    "tags": [
-      "qr",
-      "thanh toán",
-      "ngân hàng",
-      "vietqr"
-    ],
-    "status": "live",
-    "path": "./tools/tool-02/",
-    "external": "img.vietqr.io (số TK, số tiền, nội dung được gửi để tạo ảnh QR)"
-  },
-  {
-    "id": "tool-03",
-    "name": "Instant Lead Notifier",
-    "description": "Gửi thông báo lead mới qua Telegram Bot.",
-    "icon": "🤖",
-    "color": "purple",
-    "tags": [
-      "telegram",
-      "lead",
-      "thông báo",
-      "bot"
-    ],
-    "status": "live",
-    "path": "./tools/tool-03/",
-    "external": "api.telegram.org (gửi tin nhắn qua bot của bạn)"
-  },
-  {
-    "id": "tool-04",
-    "name": "Smart Meeting Assistant",
-    "description": "Tóm tắt biên bản cuộc họp và phân công việc.",
-    "icon": "🎙️",
-    "color": "amber",
-    "tags": [
-      "meeting",
-      "biên bản",
-      "tóm tắt"
-    ],
-    "status": "beta",
-    "path": "./tools/tool-04/"
-  },
-  {
-    "id": "tool-05",
-    "name": "Smart Excel Copilot",
-    "description": "Trợ lý viết công thức Excel thông minh.",
-    "icon": "📈",
-    "color": "orange",
-    "tags": [
-      "excel",
-      "công thức",
-      "sheets"
-    ],
-    "status": "beta",
-    "path": "./tools/tool-05/"
-  },
-  {
     "id": "tool-06",
+    "slug": "bao-cao-dashboard-tu-excel",
+    "section": "main",
     "name": "Executive Dashboard",
-    "description": "Tạo dashboard từ dữ liệu mẫu hoặc Excel.",
+    "short": "Báo cáo dashboard",
+    "h1": "Tạo báo cáo dashboard từ file Excel hoặc CSV",
+    "seoTitle": "Tạo báo cáo dashboard từ file Excel, CSV miễn phí",
+    "description": "Tải file Excel hoặc CSV, tự tạo biểu đồ, bảng chi tiết và báo cáo in PDF. Hiểu số kiểu Việt Nam (1.234.567) và ngày dd/mm/yyyy. Xử lý ngay trên trình duyệt.",
+    "intro": "Tải file .xlsx hoặc .csv, chọn cột nhóm, cột giá trị và cột ngày. Công cụ dựng biểu đồ, bảng chi tiết và bản in báo cáo. Số kiểu Việt Nam (1.234.567) và ngày dd/mm/yyyy được đọc đúng.",
+    "howto": [
+      "Tải file Excel (.xlsx, .xls) hoặc CSV lên.",
+      "Chọn cột nhóm (ví dụ sản phẩm), cột giá trị (ví dụ doanh thu) và cột ngày nếu có.",
+      "Bấm tạo báo cáo, lọc theo nhóm hoặc khoảng giá trị, rồi xuất PDF."
+    ],
+    "faq": [
+      { "q": "File của tôi có bị tải lên máy chủ không?", "a": "Không. File được đọc và xử lý ngay trong trình duyệt của bạn." },
+      { "q": "Ngày 01/11/2026 được hiểu là ngày nào?", "a": "Luôn hiểu theo kiểu Việt Nam: ngày 1 tháng 11. File dữ liệu kiểu Mỹ (tháng/ngày) sẽ cho kết quả sai ngày." },
+      { "q": "Số 1.500 được hiểu là bao nhiêu?", "a": "Một nghìn năm trăm. Nếu file dùng dấu chấm làm dấu thập phân kiểu Anh thì kết quả sẽ lệch." },
+      { "q": "Phần nhận xét tự động có phải AI không?", "a": "Không. Đó là câu mẫu ghép từ số liệu đã tính, chỉ để đọc nhanh." }
+    ],
     "icon": "📊",
     "color": "indigo",
-    "tags": [
-      "dashboard",
-      "biểu đồ",
-      "báo cáo"
-    ],
     "status": "live",
-    "path": "./tools/tool-06/"
-  },
-  {
-    "id": "tool-07",
-    "name": "Smart Text Formatter",
-    "description": "Chuẩn hóa tiếng Việt, bỏ dấu, xử lý ngắt dòng.",
-    "icon": "✍️",
-    "color": "teal",
-    "tags": [
-      "text",
-      "tiếng việt",
-      "format"
-    ],
-    "status": "live",
-    "path": "./tools/tool-07/"
+    "libs": ["xlsx", "chart"],
+    "wide": true
   },
   {
     "id": "tool-08",
+    "slug": "cat-anh-chen-logo-hang-loat",
+    "section": "main",
     "name": "Smart Image Studio",
-    "description": "Cắt ảnh chuẩn khung, nén và chèn logo.",
+    "short": "Cắt ảnh, chèn logo",
+    "h1": "Cắt ảnh, chèn logo và nén ảnh hàng loạt",
+    "seoTitle": "Cắt ảnh theo khung, chèn logo, nén ảnh hàng loạt trên điện thoại và máy tính",
+    "description": "Cắt ảnh theo khung 1:1, 9:16, 16:9, 4:5 hoặc tự do, chèn logo đúng vị trí, nén ảnh và xử lý nhiều ảnh cùng lúc. Chạy trên trình duyệt, dùng được trên điện thoại.",
+    "intro": "Chọn ảnh, chọn khung (1:1, 9:16, 16:9, 4:5 hoặc tự do), kéo khung và logo đúng vị trí rồi tải về JPEG. Chọn nhiều ảnh để xử lý hàng loạt. Ảnh không rời khỏi thiết bị của bạn.",
+    "howto": [
+      "Chọn một hoặc nhiều ảnh.",
+      "Chọn tỉ lệ khung, kéo khung để di chuyển và kéo góc hồng để đổi kích thước.",
+      "Thêm logo (không bắt buộc), chỉnh cỡ và kéo logo tới vị trí mong muốn, rồi bấm Tải xuống."
+    ],
+    "faq": [
+      { "q": "Xử lý nhiều ảnh hoạt động thế nào?", "a": "Mỗi ảnh được cắt chính giữa theo tỉ lệ đã chọn (Tự do giữ nguyên khung ảnh), gắn cùng logo và cùng chất lượng, rồi tải về lần lượt. Trình duyệt có thể hỏi quyền tải nhiều file." },
+      { "q": "Vì sao ảnh PNG trong suốt ra nền trắng?", "a": "Kết quả xuất dạng JPEG, không hỗ trợ nền trong suốt nên được tô nền trắng." },
+      { "q": "Ảnh có bị tải lên máy chủ không?", "a": "Không. Toàn bộ xử lý chạy trong trình duyệt." }
+    ],
     "icon": "🖼️",
     "color": "pink",
-    "tags": [
-      "ảnh",
-      "cắt",
-      "nén",
-      "logo"
-    ],
     "status": "beta",
-    "path": "./tools/tool-08/"
+    "libs": []
+  },
+  {
+    "id": "tool-01",
+    "slug": "loc-so-dien-thoai",
+    "section": "main",
+    "name": "Smart Data Cleaner",
+    "short": "Lọc số điện thoại",
+    "h1": "Lọc số điện thoại từ văn bản, xóa số trùng",
+    "seoTitle": "Lọc số điện thoại từ văn bản, bình luận, tin nhắn và xóa trùng",
+    "description": "Dán văn bản lộn xộn, tự tìm số điện thoại Việt Nam (03, 05, 07, 08, 09 hoặc +84), chuẩn hóa về một dạng và loại số trùng. Xử lý ngay trên trình duyệt.",
+    "intro": "Dán đoạn chat, bình luận hay danh sách lộn xộn. Công cụ tìm số di động Việt Nam (đầu 03, 05, 07, 08, 09 hoặc +84), nhận cả số viết cách bằng dấu cách, dấu chấm, gạch ngang, chuẩn hóa về một dạng và loại số trùng.",
+    "howto": [
+      "Dán văn bản chứa số điện thoại vào ô nhập.",
+      "Chọn giữ dòng gốc, thêm số bàn (02x) hoặc đổi sang dạng +84 nếu cần.",
+      "Bấm lọc rồi sao chép danh sách."
+    ],
+    "faq": [
+      { "q": "Có nhận số viết cách như 0912 345 678 không?", "a": "Có. Nhận số cách nhau bằng dấu cách, dấu chấm, gạch ngang và dạng +84. 0912345678 và +84912345678 được tính là một số." },
+      { "q": "Dữ liệu có bị gửi đi đâu không?", "a": "Không. Việc lọc chạy hoàn toàn trong trình duyệt." },
+      { "q": "Tôi nên lưu ý gì khi dùng danh sách số?", "a": "Chỉ dùng cho dữ liệu khách hàng mà bạn có quyền xử lý, và tuân thủ quy định bảo vệ dữ liệu cá nhân khi liên hệ." }
+    ],
+    "icon": "🧹",
+    "color": "cyan",
+    "status": "live",
+    "libs": []
+  },
+  {
+    "id": "tool-04",
+    "slug": "tach-viec-tu-bien-ban-hop",
+    "section": "main",
+    "name": "Smart Meeting Assistant",
+    "short": "Tách việc từ biên bản",
+    "h1": "Tách việc và người phụ trách từ biên bản họp",
+    "seoTitle": "Tách việc cần làm, người phụ trách và hạn từ biên bản cuộc họp",
+    "description": "Dán biên bản họp, tự tách dòng việc cần làm, người phụ trách và hạn (trước thứ 6, ngày 15/11...). Bộ lọc theo quy tắc chữ, chạy trên trình duyệt, không dùng AI.",
+    "intro": "Dán biên bản hoặc ghi chú họp. Công cụ nhận diện dòng việc, người phụ trách (anh/chị/em + tên, @tên, hoặc \"Tên:\") và hạn (trước thứ 6, ngày 15/11, ngày mai...). Đây là bộ lọc theo quy tắc chữ chứ không phải AI, nên hãy kiểm tra lại kết quả.",
+    "howto": [
+      "Dán biên bản vào ô nhập, mỗi việc một dòng.",
+      "Bấm Phân tích để xem danh sách việc, người phụ trách và hạn.",
+      "Tick các việc đã xong, sao chép hoặc xuất ra file .txt."
+    ],
+    "faq": [
+      { "q": "Công cụ này có dùng AI không?", "a": "Không. Nó nhận diện bằng quy tắc chữ nên có thể sót hoặc nhận nhầm, nhất là khi câu viết không theo mẫu." },
+      { "q": "Vì sao một số việc không được tách ra?", "a": "Mỗi việc nên nằm trên một dòng riêng, bắt đầu bằng gạch đầu dòng hoặc có từ như cần, phải, phụ trách, hoàn thành." },
+      { "q": "Người được nhắc đến có phải người phụ trách không?", "a": "Không phải lúc nào cũng vậy. Người nhận hoặc người được nhắc trong câu cũng có thể xuất hiện ở danh sách người được nhắc đến." }
+    ],
+    "icon": "🎙️",
+    "color": "amber",
+    "status": "beta",
+    "libs": []
+  },
+  {
+    "id": "tool-07",
+    "slug": "chuan-hoa-tieng-viet",
+    "section": "main",
+    "name": "Smart Text Formatter",
+    "short": "Chuẩn hóa tiếng Việt",
+    "h1": "Chuẩn hóa tiếng Việt: bỏ dấu, sửa chữ lỗi, tạo slug",
+    "seoTitle": "Chuẩn hóa tiếng Việt online: bỏ dấu, sửa chữ lỗi font, tạo slug, sửa file CSV",
+    "description": "Chuẩn hóa Unicode tiếng Việt, bỏ dấu, tạo slug, sửa chữ bị lỗi (Ä‘, áº...) và sửa file CSV/TXT bị lỗi font. Chạy ngay trên trình duyệt.",
+    "intro": "Làm sạch văn bản tiếng Việt theo từng bước nối tiếp: sửa chữ lỗi mã hóa, chuẩn hóa Unicode, dọn khoảng trắng, đổi kiểu chữ, bỏ dấu hoặc tạo slug. Có thêm phần sửa file CSV/TXT bị lỗi font khi mở bằng Excel.",
+    "howto": [
+      "Dán văn bản, tick các bước cần áp dụng rồi bấm Chuẩn hóa.",
+      "Muốn sửa cả file: tải file CSV hoặc TXT lên, xem thử nội dung rồi tải bản UTF-8 về.",
+      "Mở file đã sửa bằng Excel, tiếng Việt sẽ hiển thị đúng."
+    ],
+    "faq": [
+      { "q": "Chuẩn hóa Unicode (NFC) để làm gì?", "a": "Cùng một chữ có thể lưu bằng ký tự dựng sẵn hoặc ký tự tổ hợp. Hai dạng nhìn giống nhau nhưng tìm kiếm và so khớp coi là khác nhau. NFC đưa về một dạng thống nhất." },
+      { "q": "Chữ bị lỗi như Ä‘Æ°á»ng sửa được không?", "a": "Thường là được, khi văn bản UTF-8 bị đọc nhầm bằng bảng mã Windows. Công cụ thử đảo ngược quá trình đó cho từng dòng. Dòng nào không đảo được sẽ giữ nguyên." },
+      { "q": "Có chuyển được font VNI, TCVN3 cũ không?", "a": "Chưa. Công cụ hiện chưa hỗ trợ chuyển bảng mã font cũ VNI hay TCVN3." },
+      { "q": "File của tôi có bị tải lên không?", "a": "Không. File được đọc và sửa ngay trong trình duyệt." }
+    ],
+    "icon": "✍️",
+    "color": "teal",
+    "status": "live",
+    "libs": []
+  },
+  {
+    "id": "tool-02",
+    "slug": "tao-ma-vietqr",
+    "section": "extra",
+    "name": "QuickVietQR Generator",
+    "short": "Tạo mã VietQR",
+    "h1": "Tạo mã VietQR chuyển khoản",
+    "seoTitle": "Tạo mã VietQR chuyển khoản có số tiền và nội dung",
+    "description": "Tạo mã VietQR với số tài khoản, số tiền và nội dung chuyển khoản, lưu tài khoản để dùng lại. Lưu ý: ảnh QR được lấy từ img.vietqr.io.",
+    "intro": "Nhập ngân hàng, số tài khoản, số tiền và nội dung để lấy ảnh QR chuyển khoản. Có thể lưu tài khoản trên máy này để dùng lại.",
+    "howto": [
+      "Chọn ngân hàng, nhập số tài khoản và tên chủ tài khoản.",
+      "Nhập số tiền và nội dung chuyển khoản (có thể để trống).",
+      "Bấm tạo, kiểm tra kỹ rồi gửi mã cho khách."
+    ],
+    "faq": [
+      { "q": "Mã QR được tạo thế nào?", "a": "Công cụ ghép thông tin rồi lấy ảnh QR từ dịch vụ img.vietqr.io. Vì vậy số tài khoản, số tiền và nội dung được gửi tới dịch vụ đó." },
+      { "q": "Thông tin tài khoản lưu ở đâu?", "a": "Chỉ lưu trong trình duyệt của bạn trên máy này, không lưu trên máy chủ của kho tool." },
+      { "q": "Cần lưu ý gì trước khi gửi mã cho khách?", "a": "Luôn kiểm tra lại tên chủ tài khoản và số tiền hiển thị trong app ngân hàng trước khi gửi." }
+    ],
+    "icon": "💳",
+    "color": "emerald",
+    "status": "live",
+    "libs": [],
+    "external": "img.vietqr.io (số tài khoản, số tiền, nội dung được gửi để tạo ảnh QR)"
   },
   {
     "id": "tool-09",
+    "slug": "doi-dinh-dang-file",
+    "section": "extra",
     "name": "Universal Converter",
-    "description": "Chuyển đổi Excel/CSV/JSON và định dạng ảnh hàng loạt.",
+    "short": "Đổi định dạng file",
+    "h1": "Đổi định dạng Excel, CSV, JSON và ảnh",
+    "seoTitle": "Đổi định dạng Excel, CSV, JSON và ảnh (PNG, JPG, WebP) trên trình duyệt",
+    "description": "Chuyển qua lại Excel, CSV, JSON và đổi định dạng ảnh hàng loạt. CSV xuất ra có BOM UTF-8 nên Excel đọc đúng tiếng Việt. Xử lý ngay trên trình duyệt.",
+    "intro": "Chuyển qua lại giữa Excel, CSV và JSON, hoặc đổi định dạng nhiều ảnh cùng lúc. CSV xuất ra có BOM UTF-8 để Excel hiển thị đúng tiếng Việt, số có 0 đầu như số điện thoại được giữ nguyên.",
+    "howto": [
+      "Tải file Excel, CSV hoặc JSON lên (chọn sheet nếu có nhiều sheet).",
+      "Chọn định dạng xuất: JSON, CSV hoặc Excel.",
+      "Với ảnh: chọn nhiều ảnh, chọn định dạng đích rồi bấm chuyển đổi."
+    ],
+    "faq": [
+      { "q": "Mở file CSV bằng Excel bị lỗi font thì sao?", "a": "File CSV xuất từ công cụ này có BOM UTF-8 nên Excel hiển thị đúng tiếng Việt. Nếu file có sẵn đã lỗi, dùng công cụ Chuẩn hóa tiếng Việt để sửa." },
+      { "q": "Số điện thoại có bị mất số 0 đầu không?", "a": "Không. Khi đọc CSV, giá trị có số 0 đầu được giữ ở dạng chữ." },
+      { "q": "Ảnh PNG trong suốt chuyển sang JPG ra sao?", "a": "JPG không có nền trong suốt nên nền được tô trắng." }
+    ],
     "icon": "🔄",
     "color": "indigo",
-    "tags": [
-      "convert",
-      "excel",
-      "csv",
-      "json",
-      "ảnh"
-    ],
     "status": "live",
-    "path": "./tools/tool-09/"
+    "libs": ["xlsx"]
   }
 ]

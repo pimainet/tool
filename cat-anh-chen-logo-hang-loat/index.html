@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cắt ảnh theo khung, chèn logo, nén ảnh hàng loạt trên điện thoại và máy tính | Kho Tool Cộng Đồng</title>
+<meta name="description" content="Cắt ảnh theo khung 1:1, 9:16, 16:9, 4:5 hoặc tự do, chèn logo đúng vị trí, nén ảnh và xử lý nhiều ảnh cùng lúc. Chạy trên trình duyệt, dùng được trên điện thoại.">
+<meta name="robots" content="index,follow">
+
+<meta property="og:type" content="website">
+<meta property="og:locale" content="vi_VN">
+<meta property="og:site_name" content="Kho Tool Cộng Đồng">
+<meta property="og:title" content="Cắt ảnh theo khung, chèn logo, nén ảnh hàng loạt trên điện thoại và máy tính | Kho Tool Cộng Đồng">
+<meta property="og:description" content="Cắt ảnh theo khung 1:1, 9:16, 16:9, 4:5 hoặc tự do, chèn logo đúng vị trí, nén ảnh và xử lý nhiều ảnh cùng lúc. Chạy trên trình duyệt, dùng được trên điện thoại.">
+
+<meta name="twitter:card" content="summary">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Cắt ảnh, chèn logo và nén ảnh hàng loạt","description":"Cắt ảnh theo khung 1:1, 9:16, 16:9, 4:5 hoặc tự do, chèn logo đúng vị trí, nén ảnh và xử lý nhiều ảnh cùng lúc. Chạy trên trình duyệt, dùng được trên điện thoại.","applicationCategory":"BusinessApplication","operatingSystem":"Trình duyệt web","inLanguage":"vi","offers":{"@type":"Offer","price":"0","priceCurrency":"VND"}}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<script src="https://cdn.tailwindcss.com"></script>
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+  body { font-family: 'Plus Jakarta Sans', sans-serif; }
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { background: #070b14; }
+  ::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 3px; }
+  input[type=file]::file-selector-button { background: #1e293b; color: #e2e8f0; border: 1px solid #334155; border-radius: 10px; padding: 7px 14px; margin-right: 10px; font-size: 12px; font-weight: 600; cursor: pointer; }
+  input[type=file]::file-selector-button:hover { background: #334155; }
+</style>
+</head>
+<body class="bg-[#070b14] text-slate-100 min-h-screen flex flex-col antialiased">
+<header class="bg-[#070b14]/90 backdrop-blur-xl border-b border-slate-800/80 py-4 px-6 sticky top-0 z-50">
+  <div class="max-w-7xl mx-auto flex justify-between items-center gap-3">
+    <a href="/" class="flex items-center gap-3">
+      <div class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-cyan-500 via-indigo-500 to-purple-600 flex items-center justify-center shadow-lg shadow-cyan-500/20 font-black text-white text-lg">⚡</div>
+      <div>
+        <p class="text-sm font-extrabold tracking-tight text-white whitespace-nowrap">KHO TOOL <span class="text-cyan-400 font-normal">CỘNG ĐỒNG</span></p>
+        <p class="text-[10px] text-slate-400 hidden sm:block">Công cụ miễn phí cho doanh nghiệp nhỏ</p>
+      </div>
+    </a>
+    <div class="flex items-center gap-3">
+      <a href="/" class="text-xs bg-slate-800 hover:bg-slate-700 text-slate-200 font-semibold px-4 py-2 rounded-xl border border-slate-700 whitespace-nowrap">← Tất cả<span class="hidden sm:inline">&nbsp;công cụ</span></a>
+      <span class="text-[10px] bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 px-3 py-1 rounded-full font-semibold hidden sm:inline">Xử lý trên trình duyệt</span>
+    </div>
+  </div>
+</header>
+<main class="max-w-4xl mx-auto px-4 py-8 flex-grow w-full space-y-8">
+  <nav aria-label="Breadcrumb" class="text-xs text-slate-500"><a href="/" class="hover:text-cyan-400">Kho Tool</a> <span aria-hidden="true">›</span> <span class="text-slate-300">Cắt ảnh, chèn logo</span></nav>
+
+  <section class="space-y-3">
+    <div class="flex items-center gap-3"><span class="text-[10px] px-2 py-0.5 rounded-lg font-semibold bg-amber-500/10 text-amber-400 border border-amber-500/20">Beta</span></div>
+    <h1 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight leading-tight">Cắt ảnh, chèn logo và nén ảnh hàng loạt</h1>
+    <p class="text-sm text-slate-400 leading-relaxed max-w-3xl">Chọn ảnh, chọn khung (1:1, 9:16, 16:9, 4:5 hoặc tự do), kéo khung và logo đúng vị trí rồi tải về JPEG. Chọn nhiều ảnh để xử lý hàng loạt. Ảnh không rời khỏi thiết bị của bạn.</p>
+    
+  </section>
+
+  <noscript><p class="text-rose-400 text-sm">Công cụ cần bật JavaScript để hoạt động.</p></noscript>
+  <section id="tool-root" aria-label="Cắt ảnh, chèn logo">
+<div class="bg-slate-900/60 border border-slate-800 rounded-3xl p-6 sm:p-8 space-y-4 max-w-2xl mx-auto">
+  <div class="flex items-center justify-between">
+    <h2 class="text-xl font-bold text-white">Smart Image Studio</h2>
+    <span class="text-[10px] bg-pink-500/10 text-pink-400 px-2 py-1 rounded-lg">v8</span>
+  </div>
+  <p class="text-xs text-slate-400">Cắt ảnh theo khung chuẩn và tải xuống. Kéo khung để di chuyển, kéo góc hồng dưới phải để đổi kích thước. Dùng được cả trên điện thoại.</p>
+
+  <input type="file" id="m8-imageInput" accept="image/*" multiple class="text-xs text-slate-300">
+  <div id="m8-fileCount" class="text-xs text-slate-400"></div>
+
+  <div id="m8-workspace" class="hidden space-y-4">
+    <div class="flex flex-wrap gap-2">
+      <span class="text-xs text-slate-400 self-center">Khung:</span>
+      <button data-ratio="1" class="m8-ratio-btn bg-slate-800 hover:bg-slate-700 text-xs px-3 py-1.5 rounded-lg border border-slate-700">1:1</button>
+      <button data-ratio="0.5625" class="m8-ratio-btn bg-slate-800 hover:bg-slate-700 text-xs px-3 py-1.5 rounded-lg border border-slate-700">9:16</button>
+      <button data-ratio="1.777" class="m8-ratio-btn bg-slate-800 hover:bg-slate-700 text-xs px-3 py-1.5 rounded-lg border border-slate-700">16:9</button>
+      <button data-ratio="0.8" class="m8-ratio-btn bg-slate-800 hover:bg-slate-700 text-xs px-3 py-1.5 rounded-lg border border-slate-700">4:5</button>
+      <button data-ratio="free" class="m8-ratio-btn bg-pink-600 text-xs px-3 py-1.5 rounded-lg">Tự do</button>
+    </div>
+
+    <div id="m8-info" class="text-xs text-slate-400"></div>
+
+    <div class="relative inline-block border border-slate-700 rounded-xl overflow-hidden bg-slate-950">
+      <img id="m8-preview" class="max-h-80 max-w-full">
+      <div id="m8-cropBox" class="absolute border-2 border-pink-400 bg-pink-400/20" style="display:none; cursor:move;"></div>
+      <img id="m8-logoOverlay" class="absolute cursor-move pointer-events-auto" style="display:none;">
+    </div>
+
+    <div class="flex items-center gap-3 text-xs">
+      <span class="text-slate-400">Chất lượng:</span>
+      <input type="range" id="m8-quality" min="30" max="95" value="80" class="w-32 accent-pink-500">
+      <span id="m8-qualityLabel" class="text-slate-300 w-8">80%</span>
+    </div>
+
+    <div class="border-t border-slate-800 pt-3 space-y-2">
+      <label class="text-xs text-slate-400">Chèn logo (tuỳ chọn)</label>
+      <input type="file" id="m8-logoInput" accept="image/*" class="text-xs text-slate-300">
+      <div id="m8-logoOptions" class="hidden flex flex-wrap gap-2 items-center">
+        <span class="text-xs text-slate-400">Kéo logo trên ảnh để đặt vị trí</span>
+        <span class="text-xs text-slate-400">Cỡ:</span>
+        <input type="range" id="m8-logoSize" min="10" max="40" value="20" class="w-20 accent-pink-500">
+      </div>
+    </div>
+
+    <div class="flex gap-2">
+      <button id="m8-previewBtn" class="bg-slate-700 hover:bg-slate-600 text-white text-xs font-bold px-4 py-2.5 rounded-xl">Xem trước</button>
+      <button id="m8-cropBtn" class="bg-pink-600 hover:bg-pink-500 text-white text-xs font-bold px-5 py-2.5 rounded-xl">Tải xuống</button>
+      <button id="m8-batchBtn" class="hidden bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold px-4 py-2.5 rounded-xl">Xử lý tất cả</button>
+      <button id="m8-resetBtn" class="bg-slate-800 hover:bg-slate-700 text-white text-xs px-4 py-2.5 rounded-xl">Chọn ảnh khác</button>
+    </div>
+    <p class="text-[10px] text-slate-500">"Xử lý tất cả": cắt chính giữa từng ảnh theo tỉ lệ đã chọn (Tự do = giữ nguyên khung ảnh), cùng chất lượng và cùng vị trí logo.</p>
+
+    <div id="m8-resultBox" class="hidden space-y-2 pt-2">
+      <div class="text-xs text-slate-400">Kết quả xem trước:</div>
+      <img id="m8-resultPreview" class="max-h-48 rounded-lg border border-slate-700">
+    </div>
+  </div>
+</div>
+  </section>
+
+  <section class="grid md:grid-cols-2 gap-6">
+    <div class="bg-slate-900/40 border border-slate-800 rounded-2xl p-6 space-y-3">
+      <h2 class="text-sm font-bold text-white">Cách dùng</h2>
+      <ol class="list-decimal list-inside space-y-2 text-xs text-slate-300 leading-relaxed">
+        <li>Chọn một hoặc nhiều ảnh.</li>
+        <li>Chọn tỉ lệ khung, kéo khung để di chuyển và kéo góc hồng để đổi kích thước.</li>
+        <li>Thêm logo (không bắt buộc), chỉnh cỡ và kéo logo tới vị trí mong muốn, rồi bấm Tải xuống.</li>
+      </ol>
+    </div>
+    <div class="bg-slate-900/40 border border-slate-800 rounded-2xl p-6 space-y-4">
+      <h2 class="text-sm font-bold text-white">Câu hỏi thường gặp</h2>
+      <div><h3 class="text-xs font-semibold text-slate-200">Xử lý nhiều ảnh hoạt động thế nào?</h3><p class="text-xs text-slate-400 leading-relaxed mt-1">Mỗi ảnh được cắt chính giữa theo tỉ lệ đã chọn (Tự do giữ nguyên khung ảnh), gắn cùng logo và cùng chất lượng, rồi tải về lần lượt. Trình duyệt có thể hỏi quyền tải nhiều file.</p></div>
+      <div><h3 class="text-xs font-semibold text-slate-200">Vì sao ảnh PNG trong suốt ra nền trắng?</h3><p class="text-xs text-slate-400 leading-relaxed mt-1">Kết quả xuất dạng JPEG, không hỗ trợ nền trong suốt nên được tô nền trắng.</p></div>
+      <div><h3 class="text-xs font-semibold text-slate-200">Ảnh có bị tải lên máy chủ không?</h3><p class="text-xs text-slate-400 leading-relaxed mt-1">Không. Toàn bộ xử lý chạy trong trình duyệt.</p></div>
+    </div>
+  </section>
+
+  <section class="bg-gradient-to-r from-indigo-950/70 to-slate-900/60 border border-indigo-500/30 rounded-3xl p-6 sm:p-8 space-y-2">
+  <h2 class="text-base font-bold text-white">Muốn không bỏ sót khách hàng tiềm năng?</h2>
+  <p class="text-xs text-slate-400 leading-relaxed max-w-2xl">Lead Loop (đang xây dựng) gom lead từ tin nhắn và bình luận, báo ngay qua Telegram và nhắc lại khi chưa ai phản hồi.</p>
+  <a href="/lead-loop/" class="inline-block text-xs font-semibold text-indigo-300 hover:text-indigo-200 pt-1">Xem Lead Loop →</a>
+</section>
+
+  <section class="space-y-3">
+    <h2 class="text-xs font-extrabold uppercase tracking-widest text-slate-400">Công cụ khác</h2>
+    <div class="grid sm:grid-cols-3 gap-4">
+      <a href="/bao-cao-dashboard-tu-excel/" class="bg-slate-900/60 hover:bg-slate-900/90 border border-slate-800 hover:border-cyan-500/50 rounded-2xl p-4 space-y-1 transition"><span class="text-lg" aria-hidden="true">📊</span><p class="text-sm font-semibold text-white">Báo cáo dashboard</p></a>
+      <a href="/loc-so-dien-thoai/" class="bg-slate-900/60 hover:bg-slate-900/90 border border-slate-800 hover:border-cyan-500/50 rounded-2xl p-4 space-y-1 transition"><span class="text-lg" aria-hidden="true">🧹</span><p class="text-sm font-semibold text-white">Lọc số điện thoại</p></a>
+      <a href="/tach-viec-tu-bien-ban-hop/" class="bg-slate-900/60 hover:bg-slate-900/90 border border-slate-800 hover:border-cyan-500/50 rounded-2xl p-4 space-y-1 transition"><span class="text-lg" aria-hidden="true">🎙️</span><p class="text-sm font-semibold text-white">Tách việc từ biên bản</p></a>
+    </div>
+  </section>
+</main>
+<footer class="text-center py-6 px-4 text-xs text-slate-500 border-t border-slate-800/80">
+  Kho Tool Cộng Đồng • Hầu hết công cụ xử lý ngay trong trình duyệt, không lưu file lên máy chủ • Công cụ có gọi dịch vụ ngoài được ghi rõ trên trang
+</footer>
+<script src="/core/shared.js"></script>
+<script src="/tools/tool-08/tool.js"></script>
+<script>
+  if (window.KhoTool && typeof window.KhoTool.currentInit === 'function') window.KhoTool.currentInit();
+</script>
+</body>
+</html>

@@ -1,22 +1,63 @@
-<div class="bg-slate-900/60 border border-slate-800 rounded-3xl p-6 sm:p-8 space-y-4">
-  <div class="flex items-center justify-between">
-    <h2 class="text-xl font-bold text-white">Smart Text Formatter</h2>
-    <span class="text-[10px] bg-teal-500/10 text-teal-400 px-2 py-1 rounded-lg">v2</span>
-  </div>
-  <p class="text-xs text-slate-400">Chuẩn hóa văn bản tiếng Việt nhanh chóng.</p>
+<div class="space-y-6">
+  <div class="bg-slate-900/60 border border-slate-800 rounded-3xl p-6 sm:p-8 space-y-4">
+    <div class="flex items-center justify-between">
+      <h2 class="text-xl font-bold text-white">Smart Text Formatter</h2>
+      <span class="text-[10px] bg-teal-500/10 text-teal-400 px-2 py-1 rounded-lg">v3</span>
+    </div>
+    <p class="text-xs text-slate-400">Chọn các bước cần áp dụng. Các bước chạy nối tiếp theo thứ tự trong danh sách.</p>
 
-  <textarea id="m7-input" rows="6" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-xs text-slate-200 focus:outline-none focus:ring-1 focus:ring-teal-500" placeholder="Dán văn bản cần chuẩn hóa..."></textarea>
+    <textarea id="m7-input" rows="6" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-xs text-slate-200 focus:outline-none focus:ring-1 focus:ring-teal-500" placeholder="Dán văn bản cần chuẩn hóa..."></textarea>
 
-  <div class="flex flex-wrap gap-2">
-    <button id="m7-removeAccent" class="bg-teal-600 hover:bg-teal-500 text-white text-xs font-bold px-4 py-2 rounded-xl">Bỏ dấu</button>
-    <button id="m7-cleanLines" class="bg-slate-700 hover:bg-slate-600 text-white text-xs font-bold px-4 py-2 rounded-xl">Chuẩn hóa dòng</button>
-    <button id="m7-capitalize" class="bg-slate-700 hover:bg-slate-600 text-white text-xs font-bold px-4 py-2 rounded-xl">Viết hoa đầu câu</button>
-    <button id="m7-cleanSpace" class="bg-slate-700 hover:bg-slate-600 text-white text-xs font-bold px-4 py-2 rounded-xl">Xóa khoảng trắng thừa</button>
+    <fieldset class="grid sm:grid-cols-2 gap-x-6 gap-y-2 text-xs text-slate-300">
+      <legend class="sr-only">Các bước xử lý</legend>
+      <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" id="m7-optMojibake" class="rounded border-slate-600 text-teal-500"> <span>1. Sửa chữ lỗi mã hóa (Ä‘, áº...)</span></label>
+      <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" id="m7-optNfc" class="rounded border-slate-600 text-teal-500" checked> <span>2. Chuẩn hóa Unicode (NFC)</span></label>
+      <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" id="m7-optSpace" class="rounded border-slate-600 text-teal-500" checked> <span>3. Xóa khoảng trắng thừa, dòng trống</span></label>
+      <label class="flex items-center gap-2"><span>4. Kiểu chữ:</span>
+        <select id="m7-optCase" class="bg-slate-950 border border-slate-800 rounded-lg p-1.5 text-slate-200">
+          <option value="none">Giữ nguyên</option>
+          <option value="sentence">Viết hoa đầu câu</option>
+          <option value="title">Viết Hoa Từng Từ</option>
+          <option value="upper">CHỮ HOA</option>
+          <option value="lower">chữ thường</option>
+        </select>
+      </label>
+      <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" id="m7-optAccent" class="rounded border-slate-600 text-teal-500"> <span>5. Bỏ dấu tiếng Việt</span></label>
+      <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" id="m7-optSlug" class="rounded border-slate-600 text-teal-500"> <span>6. Tạo slug (ví dụ: ban-an-go-soi)</span></label>
+    </fieldset>
+
+    <div class="flex flex-wrap gap-2">
+      <button id="m7-run" class="bg-teal-600 hover:bg-teal-500 text-white text-xs font-bold px-5 py-2.5 rounded-xl">Chuẩn hóa</button>
+      <button id="m7-clear" class="bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs px-4 py-2.5 rounded-xl">Xóa</button>
+    </div>
+
+    <div class="flex justify-between items-center">
+      <span class="text-[10px] text-slate-500" id="m7-status">Kết quả</span>
+      <button id="m7-copyBtn" class="hidden text-[10px] bg-slate-800 hover:bg-slate-700 px-3 py-1 rounded-lg text-slate-300">Sao chép</button>
+    </div>
+    <textarea id="m7-output" rows="6" readonly class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-xs text-slate-200 font-mono"></textarea>
   </div>
 
-  <div class="flex justify-between items-center">
-    <span class="text-[10px] text-slate-500">Kết quả</span>
-    <button id="m7-copyBtn" class="hidden text-[10px] bg-slate-800 hover:bg-slate-700 px-3 py-1 rounded-lg text-slate-300">Sao chép</button>
+  <div class="bg-slate-900/60 border border-slate-800 rounded-3xl p-6 sm:p-8 space-y-4">
+    <h2 class="text-base font-bold text-white">Sửa file CSV / TXT bị lỗi font</h2>
+    <p class="text-xs text-slate-400">Dùng khi mở file bằng Excel thấy chữ lỗi như "Ä‘Æ°á»ng" hoặc "Vi?t". Công cụ tự nhận diện bảng mã, hiển thị xem thử và cho tải bản UTF-8 có BOM để Excel đọc đúng.</p>
+
+    <input type="file" id="m7-fileInput" accept=".csv,.txt,.tsv,text/plain,text/csv" class="text-xs text-slate-300">
+
+    <label class="flex items-center gap-2 text-xs text-slate-300">
+      <span>Bảng mã nguồn:</span>
+      <select id="m7-encoding" class="bg-slate-950 border border-slate-800 rounded-lg p-1.5 text-slate-200">
+        <option value="auto">Tự nhận diện</option>
+        <option value="utf-8">UTF-8</option>
+        <option value="windows-1258">Windows-1258 (tiếng Việt cũ)</option>
+        <option value="windows-1252">Windows-1252 (Latin)</option>
+      </select>
+    </label>
+
+    <div id="m7-fileBox" class="hidden space-y-3">
+      <p id="m7-fileInfo" class="text-xs text-teal-300"></p>
+      <pre id="m7-filePreview" class="bg-slate-950 border border-slate-800 rounded-xl p-3 text-[11px] text-slate-300 overflow-x-auto whitespace-pre-wrap max-h-48"></pre>
+      <button id="m7-fileDownload" class="bg-teal-600 hover:bg-teal-500 text-white text-xs font-bold px-5 py-2.5 rounded-xl">Tải bản UTF-8 (có BOM)</button>
+    </div>
   </div>
-  <textarea id="m7-output" rows="6" readonly class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-xs text-slate-200 font-mono"></textarea>
 </div>

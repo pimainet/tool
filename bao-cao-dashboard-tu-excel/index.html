@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tạo báo cáo dashboard từ file Excel, CSV miễn phí | Kho Tool Cộng Đồng</title>
+<meta name="description" content="Tải file Excel hoặc CSV, tự tạo biểu đồ, bảng chi tiết và báo cáo in PDF. Hiểu số kiểu Việt Nam (1.234.567) và ngày dd/mm/yyyy. Xử lý ngay trên trình duyệt.">
+<meta name="robots" content="index,follow">
+
+<meta property="og:type" content="website">
+<meta property="og:locale" content="vi_VN">
+<meta property="og:site_name" content="Kho Tool Cộng Đồng">
+<meta property="og:title" content="Tạo báo cáo dashboard từ file Excel, CSV miễn phí | Kho Tool Cộng Đồng">
+<meta property="og:description" content="Tải file Excel hoặc CSV, tự tạo biểu đồ, bảng chi tiết và báo cáo in PDF. Hiểu số kiểu Việt Nam (1.234.567) và ngày dd/mm/yyyy. Xử lý ngay trên trình duyệt.">
+
+<meta name="twitter:card" content="summary">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Tạo báo cáo dashboard từ file Excel hoặc CSV","description":"Tải file Excel hoặc CSV, tự tạo biểu đồ, bảng chi tiết và báo cáo in PDF. Hiểu số kiểu Việt Nam (1.234.567) và ngày dd/mm/yyyy. Xử lý ngay trên trình duyệt.","applicationCategory":"BusinessApplication","operatingSystem":"Trình duyệt web","inLanguage":"vi","offers":{"@type":"Offer","price":"0","priceCurrency":"VND"}}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+  body { font-family: 'Plus Jakarta Sans', sans-serif; }
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { background: #070b14; }
+  ::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 3px; }
+  input[type=file]::file-selector-button { background: #1e293b; color: #e2e8f0; border: 1px solid #334155; border-radius: 10px; padding: 7px 14px; margin-right: 10px; font-size: 12px; font-weight: 600; cursor: pointer; }
+  input[type=file]::file-selector-button:hover { background: #334155; }
+</style>
+</head>
+<body class="bg-[#070b14] text-slate-100 min-h-screen flex flex-col antialiased">
+<header class="bg-[#070b14]/90 backdrop-blur-xl border-b border-slate-800/80 py-4 px-6 sticky top-0 z-50">
+  <div class="max-w-7xl mx-auto flex justify-between items-center gap-3">
+    <a href="/" class="flex items-center gap-3">
+      <div class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-cyan-500 via-indigo-500 to-purple-600 flex items-center justify-center shadow-lg shadow-cyan-500/20 font-black text-white text-lg">⚡</div>
+      <div>
+        <p class="text-sm font-extrabold tracking-tight text-white whitespace-nowrap">KHO TOOL <span class="text-cyan-400 font-normal">CỘNG ĐỒNG</span></p>
+        <p class="text-[10px] text-slate-400 hidden sm:block">Công cụ miễn phí cho doanh nghiệp nhỏ</p>
+      </div>
+    </a>
+    <div class="flex items-center gap-3">
+      <a href="/" class="text-xs bg-slate-800 hover:bg-slate-700 text-slate-200 font-semibold px-4 py-2 rounded-xl border border-slate-700 whitespace-nowrap">← Tất cả<span class="hidden sm:inline">&nbsp;công cụ</span></a>
+      <span class="text-[10px] bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 px-3 py-1 rounded-full font-semibold hidden sm:inline">Xử lý trên trình duyệt</span>
+    </div>
+  </div>
+</header>
+<main class="max-w-7xl mx-auto px-4 py-8 flex-grow w-full space-y-8">
+  <nav aria-label="Breadcrumb" class="text-xs text-slate-500"><a href="/" class="hover:text-cyan-400">Kho Tool</a> <span aria-hidden="true">›</span> <span class="text-slate-300">Báo cáo dashboard</span></nav>
+
+  <section class="space-y-3">
+    <div class="flex items-center gap-3"><span class="text-[10px] px-2 py-0.5 rounded-lg font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">Live</span></div>
+    <h1 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight leading-tight">Tạo báo cáo dashboard từ file Excel hoặc CSV</h1>
+    <p class="text-sm text-slate-400 leading-relaxed max-w-3xl">Tải file .xlsx hoặc .csv, chọn cột nhóm, cột giá trị và cột ngày. Công cụ dựng biểu đồ, bảng chi tiết và bản in báo cáo. Số kiểu Việt Nam (1.234.567) và ngày dd/mm/yyyy được đọc đúng.</p>
+    
+  </section>
+
+  <noscript><p class="text-rose-400 text-sm">Công cụ cần bật JavaScript để hoạt động.</p></noscript>
+  <section id="tool-root" aria-label="Báo cáo dashboard">
+<style>
+@keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+</style>
+<div class="space-y-6">
+  <div class="bg-slate-900/60 border border-slate-800 rounded-3xl p-6 sm:p-8 space-y-6">
+    <div class="flex items-center justify-between border-b border-slate-800 pb-4">
+      <div>
+        <span class="text-[10px] bg-rose-500/10 text-rose-400 px-2.5 py-1 rounded-lg border border-rose-500/20 font-bold">Tool 06</span>
+        <h2 class="text-xl font-extrabold text-white mt-1">Executive Dashboard Builder</h2>
+      </div>
+      <span class="text-[10px] bg-emerald-500/10 text-emerald-400 px-2 py-1 rounded-lg">v11</span>
+    </div>
+
+    <div id="m6-uploadSection" class="space-y-6">
+      <label class="flex flex-col items-center justify-center border-2 border-dashed border-slate-700 hover:border-rose-500 bg-slate-950/40 hover:bg-slate-950/80 rounded-2xl p-10 cursor-pointer transition text-center group max-w-xl mx-auto">
+        <div class="w-14 h-14 rounded-2xl bg-slate-900 border border-slate-800 flex items-center justify-center mb-3 text-2xl">📊</div>
+        <span class="text-sm text-slate-200 font-bold">Tải lên file Excel / CSV</span>
+        <span class="text-[11px] text-slate-500 mt-1">.xlsx, .xls, .csv • Xử lý trên trình duyệt</span>
+        <input type="file" id="m6-excelInput" accept=".xlsx,.xls,.csv,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel,text/csv" class="hidden">
+      </label>
+
+      <div id="m6-wizardBox" class="hidden border-t border-slate-800 pt-6 space-y-4">
+        <div class="flex justify-between items-center">
+          <h3 class="text-xs font-bold text-rose-400">Cấu hình báo cáo</h3>
+          <span id="m6-rowCount" class="text-xs bg-slate-800 px-3 py-1 rounded-lg text-slate-300"></span>
+        </div>
+
+        <div id="m6-sheetBox" class="hidden">
+          <label class="text-xs text-slate-300">Sheet</label>
+          <select id="m6-sheetSelect" class="w-full mt-1 p-2.5 text-xs bg-slate-900 border border-slate-700 rounded-lg text-slate-200"></select>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div class="bg-slate-950/60 border border-slate-800 p-4 rounded-xl space-y-2">
+            <label class="text-xs text-slate-300 font-semibold">Cột Phân Loại</label>
+            <select id="m6-catColSelect" class="w-full p-2.5 text-xs bg-slate-900 border border-slate-700 rounded-lg text-slate-200"></select>
+          </div>
+          <div class="bg-slate-950/60 border border-slate-800 p-4 rounded-xl space-y-2">
+            <label class="text-xs text-slate-300 font-semibold">Cột Giá Trị Số</label>
+            <select id="m6-valColSelect" class="w-full p-2.5 text-xs bg-slate-900 border border-slate-700 rounded-lg text-slate-200"></select>
+          </div>
+          <div class="bg-slate-950/60 border border-slate-800 p-4 rounded-xl space-y-2">
+            <label class="text-xs text-slate-300 font-semibold">Cột Thời Gian</label>
+            <select id="m6-dateColSelect" class="w-full p-2.5 text-xs bg-slate-900 border border-slate-700 rounded-lg text-slate-200">
+              <option value="">-- Không dùng --</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <label class="text-xs text-slate-300">Tên công ty</label>
+            <input type="text" id="m6-companyName" placeholder="Ví dụ: Công ty ABC" class="w-full mt-1 p-2.5 text-xs bg-slate-900 border border-slate-700 rounded-lg text-slate-200">
+          </div>
+          <div>
+            <label class="text-xs text-slate-300">Logo công ty (tuỳ chọn)</label>
+            <input type="file" id="m6-logoInput" accept="image/*" class="w-full mt-1 text-xs text-slate-300">
+            <div id="m6-logoPreviewBox" class="hidden mt-3 space-y-2">
+              <div class="relative inline-block border border-slate-700 rounded-lg overflow-hidden">
+                <img id="m6-logoPreview" class="max-h-32">
+                <div id="m6-cropBox" class="absolute border-2 border-cyan-400 bg-cyan-400/20 cursor-move" style="display:none;"></div>
+              </div>
+              <div class="flex gap-2">
+                <button id="m6-cropBtn" type="button" class="text-xs bg-cyan-600 hover:bg-cyan-500 text-white px-3 py-1.5 rounded-lg">Cắt logo</button>
+                <button id="m6-resetCropBtn" type="button" class="text-xs bg-slate-700 hover:bg-slate-600 text-white px-3 py-1.5 rounded-lg">Dùng ảnh gốc</button>
+              </div>
+              <p class="text-[10px] text-slate-500">Kéo chuột trên ảnh để chọn vùng logo, rồi bấm Cắt logo.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <label class="text-xs text-slate-300">Tiêu đề báo cáo</label>
+            <input type="text" id="m6-reportTitle" value="Báo cáo tổng quan" class="w-full mt-1 p-2.5 text-xs bg-slate-900 border border-slate-700 rounded-lg text-slate-200">
+          </div>
+          <div>
+            <label class="text-xs text-slate-300">Hiển thị</label>
+            <select id="m6-topN" class="w-full mt-1 bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-xs text-slate-200">
+              <option value="5">Top 5</option>
+              <option value="8" selected>Top 8</option>
+              <option value="10">Top 10</option>
+              <option value="0">Tất cả</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="flex justify-end pt-2">
+          <button id="m6-buildBtn" class="bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 text-white text-xs font-bold py-3 px-8 rounded-xl">
+            Tạo Báo Cáo
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div id="m6-dashboardSection" class="hidden space-y-6">
+      <div class="flex justify-between items-center bg-slate-950/60 p-4 rounded-xl border border-slate-800">
+        <span id="m6-reportHeader" class="text-sm font-bold text-slate-200">Báo cáo tổng quan</span>
+        <div class="flex gap-2">
+          <button id="m6-printBtn" class="bg-indigo-600 hover:bg-indigo-500 text-white text-xs px-3 py-1.5 rounded-lg">Xuất PDF chuyên nghiệp</button>
+          <button id="m6-resetBtn" class="bg-slate-800 text-slate-300 text-xs px-3 py-1.5 rounded-lg border border-slate-700">Nạp file khác</button>
+        </div>
+      </div>
+
+      <div id="m6-filterBar" class="hidden flex flex-wrap gap-3 items-center bg-slate-950/40 p-3 rounded-xl border border-slate-800">
+        <span class="text-xs text-slate-400">Lọc:</span>
+        <input type="text" id="m6-filterText" placeholder="Tìm nhóm..." class="bg-slate-900 border border-slate-700 rounded-lg px-3 py-1.5 text-xs text-slate-200 w-36">
+        <input type="number" id="m6-filterMin" placeholder="Giá trị từ" class="bg-slate-900 border border-slate-700 rounded-lg px-3 py-1.5 text-xs text-slate-200 w-28">
+        <input type="number" id="m6-filterMax" placeholder="Đến" class="bg-slate-900 border border-slate-700 rounded-lg px-3 py-1.5 text-xs text-slate-200 w-28">
+        <button id="m6-applyFilter" class="bg-slate-700 hover:bg-slate-600 text-xs px-3 py-1.5 rounded-lg">Áp dụng</button>
+        <button id="m6-clearFilter" class="text-xs text-slate-400 hover:text-slate-200">Xóa lọc</button>
+      </div>
+
+      <div id="m6-reportContent" class="space-y-6">
+        <div id="m6-insightBox" class="hidden bg-slate-950/60 border border-slate-800 rounded-xl p-4">
+          <div class="text-[10px] text-slate-400 uppercase font-bold mb-2">Nhận xét tự động</div>
+          <div id="m6-insightText" class="text-xs text-slate-300 leading-relaxed"></div>
+        </div>
+
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+          <div class="bg-slate-950/60 border border-slate-800 p-4 rounded-xl">
+            <span class="text-[10px] text-slate-400 uppercase font-bold">Tổng giá trị</span>
+            <div id="m6-kpiTotal" class="text-xl font-black text-rose-400">0</div>
+          </div>
+          <div class="bg-slate-950/60 border border-slate-800 p-4 rounded-xl">
+            <span class="text-[10px] text-slate-400 uppercase font-bold">Trung bình</span>
+            <div id="m6-kpiAvg" class="text-xl font-black text-emerald-400">0</div>
+          </div>
+          <div class="bg-slate-950/60 border border-slate-800 p-4 rounded-xl">
+            <span class="text-[10px] text-slate-400 uppercase font-bold">Số dòng</span>
+            <div id="m6-kpiCount" class="text-xl font-black text-indigo-400">0</div>
+          </div>
+          <div class="bg-slate-950/60 border border-slate-800 p-4 rounded-xl">
+            <span class="text-[10px] text-slate-400 uppercase font-bold">Dẫn đầu</span>
+            <div id="m6-kpiTop" class="text-sm font-bold text-amber-400 truncate">-</div>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <div class="bg-slate-950/60 border border-slate-800 p-4 rounded-xl h-72">
+            <canvas id="m6-barChart"></canvas>
+          </div>
+          <div class="bg-slate-950/60 border border-slate-800 p-4 rounded-xl h-72">
+            <canvas id="m6-doughnutChart"></canvas>
+          </div>
+        </div>
+
+        <div id="m6-timeChartBox" class="hidden bg-slate-950/60 border border-slate-800 p-4 rounded-xl h-72">
+          <canvas id="m6-lineChart"></canvas>
+        </div>
+
+        <div class="bg-slate-950/60 border border-slate-800 rounded-xl overflow-hidden">
+          <div class="px-4 py-3 border-b border-slate-800 text-xs font-semibold text-slate-300">Chi tiết theo nhóm</div>
+          <div class="overflow-x-auto">
+            <table class="w-full text-xs">
+              <thead class="bg-slate-900/50 text-slate-400">
+                <tr>
+                  <th class="text-left px-4 py-2 font-medium">Nhóm</th>
+                  <th class="text-right px-4 py-2 font-medium">Giá trị</th>
+                  <th class="text-right px-4 py-2 font-medium">Tỷ lệ</th>
+                </tr>
+              </thead>
+              <tbody id="m6-detailTable" class="text-slate-200"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+  </section>
+
+  <section class="grid md:grid-cols-2 gap-6">
+    <div class="bg-slate-900/40 border border-slate-800 rounded-2xl p-6 space-y-3">
+      <h2 class="text-sm font-bold text-white">Cách dùng</h2>
+      <ol class="list-decimal list-inside space-y-2 text-xs text-slate-300 leading-relaxed">
+        <li>Tải file Excel (.xlsx, .xls) hoặc CSV lên.</li>
+        <li>Chọn cột nhóm (ví dụ sản phẩm), cột giá trị (ví dụ doanh thu) và cột ngày nếu có.</li>
+        <li>Bấm tạo báo cáo, lọc theo nhóm hoặc khoảng giá trị, rồi xuất PDF.</li>
+      </ol>
+    </div>
+    <div class="bg-slate-900/40 border border-slate-800 rounded-2xl p-6 space-y-4">
+      <h2 class="text-sm font-bold text-white">Câu hỏi thường gặp</h2>
+      <div><h3 class="text-xs font-semibold text-slate-200">File của tôi có bị tải lên máy chủ không?</h3><p class="text-xs text-slate-400 leading-relaxed mt-1">Không. File được đọc và xử lý ngay trong trình duyệt của bạn.</p></div>
+      <div><h3 class="text-xs font-semibold text-slate-200">Ngày 01/11/2026 được hiểu là ngày nào?</h3><p class="text-xs text-slate-400 leading-relaxed mt-1">Luôn hiểu theo kiểu Việt Nam: ngày 1 tháng 11. File dữ liệu kiểu Mỹ (tháng/ngày) sẽ cho kết quả sai ngày.</p></div>
+      <div><h3 class="text-xs font-semibold text-slate-200">Số 1.500 được hiểu là bao nhiêu?</h3><p class="text-xs text-slate-400 leading-relaxed mt-1">Một nghìn năm trăm. Nếu file dùng dấu chấm làm dấu thập phân kiểu Anh thì kết quả sẽ lệch.</p></div>
+      <div><h3 class="text-xs font-semibold text-slate-200">Phần nhận xét tự động có phải AI không?</h3><p class="text-xs text-slate-400 leading-relaxed mt-1">Không. Đó là câu mẫu ghép từ số liệu đã tính, chỉ để đọc nhanh.</p></div>
+    </div>
+  </section>
+
+  <section class="bg-gradient-to-r from-indigo-950/70 to-slate-900/60 border border-indigo-500/30 rounded-3xl p-6 sm:p-8 space-y-2">
+  <h2 class="text-base font-bold text-white">Muốn không bỏ sót khách hàng tiềm năng?</h2>
+  <p class="text-xs text-slate-400 leading-relaxed max-w-2xl">Lead Loop (đang xây dựng) gom lead từ tin nhắn và bình luận, báo ngay qua Telegram và nhắc lại khi chưa ai phản hồi.</p>
+  <a href="/lead-loop/" class="inline-block text-xs font-semibold text-indigo-300 hover:text-indigo-200 pt-1">Xem Lead Loop →</a>
+</section>
+
+  <section class="space-y-3">
+    <h2 class="text-xs font-extrabold uppercase tracking-widest text-slate-400">Công cụ khác</h2>
+    <div class="grid sm:grid-cols-3 gap-4">
+      <a href="/cat-anh-chen-logo-hang-loat/" class="bg-slate-900/60 hover:bg-slate-900/90 border border-slate-800 hover:border-cyan-500/50 rounded-2xl p-4 space-y-1 transition"><span class="text-lg" aria-hidden="true">🖼️</span><p class="text-sm font-semibold text-white">Cắt ảnh, chèn logo</p></a>
+      <a href="/loc-so-dien-thoai/" class="bg-slate-900/60 hover:bg-slate-900/90 border border-slate-800 hover:border-cyan-500/50 rounded-2xl p-4 space-y-1 transition"><span class="text-lg" aria-hidden="true">🧹</span><p class="text-sm font-semibold text-white">Lọc số điện thoại</p></a>
+      <a href="/tach-viec-tu-bien-ban-hop/" class="bg-slate-900/60 hover:bg-slate-900/90 border border-slate-800 hover:border-cyan-500/50 rounded-2xl p-4 space-y-1 transition"><span class="text-lg" aria-hidden="true">🎙️</span><p class="text-sm font-semibold text-white">Tách việc từ biên bản</p></a>
+    </div>
+  </section>
+</main>
+<footer class="text-center py-6 px-4 text-xs text-slate-500 border-t border-slate-800/80">
+  Kho Tool Cộng Đồng • Hầu hết công cụ xử lý ngay trong trình duyệt, không lưu file lên máy chủ • Công cụ có gọi dịch vụ ngoài được ghi rõ trên trang
+</footer>
+<script src="/core/shared.js"></script>
+<script src="/tools/tool-06/tool.js"></script>
+<script>
+  if (window.KhoTool && typeof window.KhoTool.currentInit === 'function') window.KhoTool.currentInit();
+</script>
+</body>
+</html>

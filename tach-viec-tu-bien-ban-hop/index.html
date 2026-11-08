@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tách việc cần làm, người phụ trách và hạn từ biên bản cuộc họp | Kho Tool Cộng Đồng</title>
+<meta name="description" content="Dán biên bản họp, tự tách dòng việc cần làm, người phụ trách và hạn (trước thứ 6, ngày 15/11...). Bộ lọc theo quy tắc chữ, chạy trên trình duyệt, không dùng AI.">
+<meta name="robots" content="index,follow">
+
+<meta property="og:type" content="website">
+<meta property="og:locale" content="vi_VN">
+<meta property="og:site_name" content="Kho Tool Cộng Đồng">
+<meta property="og:title" content="Tách việc cần làm, người phụ trách và hạn từ biên bản cuộc họp | Kho Tool Cộng Đồng">
+<meta property="og:description" content="Dán biên bản họp, tự tách dòng việc cần làm, người phụ trách và hạn (trước thứ 6, ngày 15/11...). Bộ lọc theo quy tắc chữ, chạy trên trình duyệt, không dùng AI.">
+
+<meta name="twitter:card" content="summary">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Tách việc và người phụ trách từ biên bản họp","description":"Dán biên bản họp, tự tách dòng việc cần làm, người phụ trách và hạn (trước thứ 6, ngày 15/11...). Bộ lọc theo quy tắc chữ, chạy trên trình duyệt, không dùng AI.","applicationCategory":"BusinessApplication","operatingSystem":"Trình duyệt web","inLanguage":"vi","offers":{"@type":"Offer","price":"0","priceCurrency":"VND"}}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<script src="https://cdn.tailwindcss.com"></script>
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+  body { font-family: 'Plus Jakarta Sans', sans-serif; }
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { background: #070b14; }
+  ::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 3px; }
+  input[type=file]::file-selector-button { background: #1e293b; color: #e2e8f0; border: 1px solid #334155; border-radius: 10px; padding: 7px 14px; margin-right: 10px; font-size: 12px; font-weight: 600; cursor: pointer; }
+  input[type=file]::file-selector-button:hover { background: #334155; }
+</style>
+</head>
+<body class="bg-[#070b14] text-slate-100 min-h-screen flex flex-col antialiased">
+<header class="bg-[#070b14]/90 backdrop-blur-xl border-b border-slate-800/80 py-4 px-6 sticky top-0 z-50">
+  <div class="max-w-7xl mx-auto flex justify-between items-center gap-3">
+    <a href="/" class="flex items-center gap-3">
+      <div class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-cyan-500 via-indigo-500 to-purple-600 flex items-center justify-center shadow-lg shadow-cyan-500/20 font-black text-white text-lg">⚡</div>
+      <div>
+        <p class="text-sm font-extrabold tracking-tight text-white whitespace-nowrap">KHO TOOL <span class="text-cyan-400 font-normal">CỘNG ĐỒNG</span></p>
+        <p class="text-[10px] text-slate-400 hidden sm:block">Công cụ miễn phí cho doanh nghiệp nhỏ</p>
+      </div>
+    </a>
+    <div class="flex items-center gap-3">
+      <a href="/" class="text-xs bg-slate-800 hover:bg-slate-700 text-slate-200 font-semibold px-4 py-2 rounded-xl border border-slate-700 whitespace-nowrap">← Tất cả<span class="hidden sm:inline">&nbsp;công cụ</span></a>
+      <span class="text-[10px] bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 px-3 py-1 rounded-full font-semibold hidden sm:inline">Xử lý trên trình duyệt</span>
+    </div>
+  </div>
+</header>
+<main class="max-w-4xl mx-auto px-4 py-8 flex-grow w-full space-y-8">
+  <nav aria-label="Breadcrumb" class="text-xs text-slate-500"><a href="/" class="hover:text-cyan-400">Kho Tool</a> <span aria-hidden="true">›</span> <span class="text-slate-300">Tách việc từ biên bản</span></nav>
+
+  <section class="space-y-3">
+    <div class="flex items-center gap-3"><span class="text-[10px] px-2 py-0.5 rounded-lg font-semibold bg-amber-500/10 text-amber-400 border border-amber-500/20">Beta</span></div>
+    <h1 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight leading-tight">Tách việc và người phụ trách từ biên bản họp</h1>
+    <p class="text-sm text-slate-400 leading-relaxed max-w-3xl">Dán biên bản hoặc ghi chú họp. Công cụ nhận diện dòng việc, người phụ trách (anh/chị/em + tên, @tên, hoặc &quot;Tên:&quot;) và hạn (trước thứ 6, ngày 15/11, ngày mai...). Đây là bộ lọc theo quy tắc chữ chứ không phải AI, nên hãy kiểm tra lại kết quả.</p>
+    
+  </section>
+
+  <noscript><p class="text-rose-400 text-sm">Công cụ cần bật JavaScript để hoạt động.</p></noscript>
+  <section id="tool-root" aria-label="Tách việc từ biên bản">
+<div class="bg-slate-900/60 border border-slate-800 rounded-3xl p-6 sm:p-8 space-y-4">
+  <div class="flex items-center justify-between">
+    <h2 class="text-xl font-bold text-white">Smart Meeting Assistant</h2>
+    <span class="text-[10px] bg-amber-500/10 text-amber-400 px-2 py-1 rounded-lg">v2</span>
+  </div>
+  <p class="text-xs text-slate-400">Dán biên bản cuộc họp. Tool sẽ tách việc cần làm và người phụ trách.</p>
+
+  <textarea id="m4-input" rows="8" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-xs text-slate-200 focus:outline-none focus:ring-1 focus:ring-amber-500" placeholder="Dán biên bản hoặc ghi chú cuộc họp vào đây...
+
+Ví dụ:
+- Anh Minh cần hoàn thành báo cáo trước thứ 6
+- Chị Lan phụ trách liên hệ khách hàng
+- Cần chuẩn bị tài liệu họp tuần sau"></textarea>
+
+  <button id="m4-processBtn" class="bg-amber-600 hover:bg-amber-500 text-white font-bold text-xs px-5 py-2.5 rounded-xl">Phân tích</button>
+
+  <div id="m4-result" class="hidden space-y-4 pt-2">
+    <div>
+      <div class="text-xs font-semibold text-amber-400 mb-2">Việc cần làm</div>
+      <div id="m4-tasks" class="space-y-2"></div>
+    </div>
+    <div>
+      <div class="text-xs font-semibold text-slate-400 mb-2">Người được nhắc đến</div>
+      <div id="m4-people" class="flex flex-wrap gap-2"></div>
+    </div>
+    <button id="m4-copyBtn" class="text-xs bg-slate-800 hover:bg-slate-700 text-slate-300 px-4 py-2 rounded-lg">Sao chép</button>
+    <button id="m4-exportBtn" class="text-xs bg-amber-600 hover:bg-amber-500 text-white px-4 py-2 rounded-lg">Xuất file .txt</button>
+  </div>
+</div>
+  </section>
+
+  <section class="grid md:grid-cols-2 gap-6">
+    <div class="bg-slate-900/40 border border-slate-800 rounded-2xl p-6 space-y-3">
+      <h2 class="text-sm font-bold text-white">Cách dùng</h2>
+      <ol class="list-decimal list-inside space-y-2 text-xs text-slate-300 leading-relaxed">
+        <li>Dán biên bản vào ô nhập, mỗi việc một dòng.</li>
+        <li>Bấm Phân tích để xem danh sách việc, người phụ trách và hạn.</li>
+        <li>Tick các việc đã xong, sao chép hoặc xuất ra file .txt.</li>
+      </ol>
+    </div>
+    <div class="bg-slate-900/40 border border-slate-800 rounded-2xl p-6 space-y-4">
+      <h2 class="text-sm font-bold text-white">Câu hỏi thường gặp</h2>
+      <div><h3 class="text-xs font-semibold text-slate-200">Công cụ này có dùng AI không?</h3><p class="text-xs text-slate-400 leading-relaxed mt-1">Không. Nó nhận diện bằng quy tắc chữ nên có thể sót hoặc nhận nhầm, nhất là khi câu viết không theo mẫu.</p></div>
+      <div><h3 class="text-xs font-semibold text-slate-200">Vì sao một số việc không được tách ra?</h3><p class="text-xs text-slate-400 leading-relaxed mt-1">Mỗi việc nên nằm trên một dòng riêng, bắt đầu bằng gạch đầu dòng hoặc có từ như cần, phải, phụ trách, hoàn thành.</p></div>
+      <div><h3 class="text-xs font-semibold text-slate-200">Người được nhắc đến có phải người phụ trách không?</h3><p class="text-xs text-slate-400 leading-relaxed mt-1">Không phải lúc nào cũng vậy. Người nhận hoặc người được nhắc trong câu cũng có thể xuất hiện ở danh sách người được nhắc đến.</p></div>
+    </div>
+  </section>
+
+  <section class="bg-gradient-to-r from-indigo-950/70 to-slate-900/60 border border-indigo-500/30 rounded-3xl p-6 sm:p-8 space-y-2">
+  <h2 class="text-base font-bold text-white">Muốn không bỏ sót khách hàng tiềm năng?</h2>
+  <p class="text-xs text-slate-400 leading-relaxed max-w-2xl">Lead Loop (đang xây dựng) gom lead từ tin nhắn và bình luận, báo ngay qua Telegram và nhắc lại khi chưa ai phản hồi.</p>
+  <a href="/lead-loop/" class="inline-block text-xs font-semibold text-indigo-300 hover:text-indigo-200 pt-1">Xem Lead Loop →</a>
+</section>
+
+  <section class="space-y-3">
+    <h2 class="text-xs font-extrabold uppercase tracking-widest text-slate-400">Công cụ khác</h2>
+    <div class="grid sm:grid-cols-3 gap-4">
+      <a href="/bao-cao-dashboard-tu-excel/" class="bg-slate-900/60 hover:bg-slate-900/90 border border-slate-800 hover:border-cyan-500/50 rounded-2xl p-4 space-y-1 transition"><span class="text-lg" aria-hidden="true">📊</span><p class="text-sm font-semibold text-white">Báo cáo dashboard</p></a>
+      <a href="/cat-anh-chen-logo-hang-loat/" class="bg-slate-900/60 hover:bg-slate-900/90 border border-slate-800 hover:border-cyan-500/50 rounded-2xl p-4 space-y-1 transition"><span class="text-lg" aria-hidden="true">🖼️</span><p class="text-sm font-semibold text-white">Cắt ảnh, chèn logo</p></a>
+      <a href="/loc-so-dien-thoai/" class="bg-slate-900/60 hover:bg-slate-900/90 border border-slate-800 hover:border-cyan-500/50 rounded-2xl p-4 space-y-1 transition"><span class="text-lg" aria-hidden="true">🧹</span><p class="text-sm font-semibold text-white">Lọc số điện thoại</p></a>
+    </div>
+  </section>
+</main>
+<footer class="text-center py-6 px-4 text-xs text-slate-500 border-t border-slate-800/80">
+  Kho Tool Cộng Đồng • Hầu hết công cụ xử lý ngay trong trình duyệt, không lưu file lên máy chủ • Công cụ có gọi dịch vụ ngoài được ghi rõ trên trang
+</footer>
+<script src="/core/shared.js"></script>
+<script src="/tools/tool-04/tool.js"></script>
+<script>
+  if (window.KhoTool && typeof window.KhoTool.currentInit === 'function') window.KhoTool.currentInit();
+</script>
+</body>
+</html>
