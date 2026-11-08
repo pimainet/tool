@@ -5,7 +5,12 @@
     "description": "Lọc sạch số điện thoại từ văn bản thô, xóa trùng lặp.",
     "icon": "🧹",
     "color": "cyan",
-    "tags": ["data", "sđt", "sales", "lọc"],
+    "tags": [
+      "data",
+      "sđt",
+      "sales",
+      "lọc"
+    ],
     "status": "live",
     "path": "./tools/tool-01/"
   },
@@ -15,9 +20,15 @@
     "description": "Tạo mã VietQR thanh toán động với số tiền và nội dung.",
     "icon": "💳",
     "color": "emerald",
-    "tags": ["qr", "thanh toán", "ngân hàng", "vietqr"],
+    "tags": [
+      "qr",
+      "thanh toán",
+      "ngân hàng",
+      "vietqr"
+    ],
     "status": "live",
-    "path": "./tools/tool-02/"
+    "path": "./tools/tool-02/",
+    "external": "img.vietqr.io (số TK, số tiền, nội dung được gửi để tạo ảnh QR)"
   },
   {
     "id": "tool-03",
@@ -25,9 +36,15 @@
     "description": "Gửi thông báo lead mới qua Telegram Bot.",
     "icon": "🤖",
     "color": "purple",
-    "tags": ["telegram", "lead", "thông báo", "bot"],
+    "tags": [
+      "telegram",
+      "lead",
+      "thông báo",
+      "bot"
+    ],
     "status": "live",
-    "path": "./tools/tool-03/"
+    "path": "./tools/tool-03/",
+    "external": "api.telegram.org (gửi tin nhắn qua bot của bạn)"
   },
   {
     "id": "tool-04",
@@ -35,7 +52,11 @@
     "description": "Tóm tắt biên bản cuộc họp và phân công việc.",
     "icon": "🎙️",
     "color": "amber",
-    "tags": ["meeting", "biên bản", "tóm tắt"],
+    "tags": [
+      "meeting",
+      "biên bản",
+      "tóm tắt"
+    ],
     "status": "beta",
     "path": "./tools/tool-04/"
   },
@@ -45,7 +66,11 @@
     "description": "Trợ lý viết công thức Excel thông minh.",
     "icon": "📈",
     "color": "orange",
-    "tags": ["excel", "công thức", "sheets"],
+    "tags": [
+      "excel",
+      "công thức",
+      "sheets"
+    ],
     "status": "beta",
     "path": "./tools/tool-05/"
   },
@@ -55,7 +80,11 @@
     "description": "Tạo dashboard từ dữ liệu mẫu hoặc Excel.",
     "icon": "📊",
     "color": "indigo",
-    "tags": ["dashboard", "biểu đồ", "báo cáo"],
+    "tags": [
+      "dashboard",
+      "biểu đồ",
+      "báo cáo"
+    ],
     "status": "live",
     "path": "./tools/tool-06/"
   },
@@ -65,7 +94,11 @@
     "description": "Chuẩn hóa tiếng Việt, bỏ dấu, xử lý ngắt dòng.",
     "icon": "✍️",
     "color": "teal",
-    "tags": ["text", "tiếng việt", "format"],
+    "tags": [
+      "text",
+      "tiếng việt",
+      "format"
+    ],
     "status": "live",
     "path": "./tools/tool-07/"
   },
@@ -75,7 +108,12 @@
     "description": "Cắt ảnh chuẩn khung, nén và chèn logo.",
     "icon": "🖼️",
     "color": "pink",
-    "tags": ["ảnh", "cắt", "nén", "logo"],
+    "tags": [
+      "ảnh",
+      "cắt",
+      "nén",
+      "logo"
+    ],
     "status": "beta",
     "path": "./tools/tool-08/"
   },
@@ -85,7 +123,13 @@
     "description": "Chuyển đổi Excel/CSV/JSON và định dạng ảnh hàng loạt.",
     "icon": "🔄",
     "color": "indigo",
-    "tags": ["convert", "excel", "csv", "json", "ảnh"],
+    "tags": [
+      "convert",
+      "excel",
+      "csv",
+      "json",
+      "ảnh"
+    ],
     "status": "live",
     "path": "./tools/tool-09/"
   }

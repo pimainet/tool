@@ -27,6 +27,31 @@ window.KhoTool.currentInit = function () {
   loadSavedCompany();
 };
 
+function esc(s) {
+  return String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+}
+
+function pad2(n) { return String(n).padStart(2, '0'); }
+
+// Chuẩn hóa ngày về yyyy-mm-dd. Hỗ trợ số seri Excel, Date, yyyy-mm-dd và dd/mm/yyyy (kiểu Việt Nam).
+function normalizeDate(v) {
+  if (v instanceof Date && !isNaN(v)) return `${v.getFullYear()}-${pad2(v.getMonth() + 1)}-${pad2(v.getDate())}`;
+  if (typeof v === 'number') {
+    if (v > 20000 && v < 80000) return new Date(Math.floor(v - 25569) * 86400000).toISOString().slice(0, 10);
+    return null;
+  }
+  const s = String(v == null ? '' : v).trim();
+  let m = s.match(/^(\d{4})[-\/.](\d{1,2})[-\/.](\d{1,2})/);
+  if (m) return `${m[1]}-${pad2(m[2])}-${pad2(m[3])}`;
+  m = s.match(/^(\d{1,2})[-\/.](\d{1,2})[-\/.](\d{4})/);
+  if (m) return `${m[3]}-${pad2(m[2])}-${pad2(m[1])}`;
+  return null;
+}
+
+function isTotalLabel(cat) {
+  return /^(total|grand total|tổng|tổng cộng|cộng|sum)$/i.test(cat.trim());
+}
+
 function loadSavedCompany() {
   try {
     const v = localStorage.getItem('ktcd_m6_company');
@@ -51,14 +76,16 @@ function handleFile(e) {
     return;
   }
 
+  const isCsv = /\.csv$/i.test(file.name);
   const reader = new FileReader();
   reader.onerror = function () {
     KhoTool.utils.showToast('Không đọc được file', 'error');
   };
   reader.onload = function (ev) {
     try {
-      const data = new Uint8Array(ev.target.result);
-      workbook = XLSX.read(data, { type: 'array' });
+      workbook = isCsv
+        ? XLSX.read(ev.target.result, { type: 'string', raw: true })
+        : XLSX.read(new Uint8Array(ev.target.result), { type: 'array' });
       if (!workbook.SheetNames || !workbook.SheetNames.length) {
         KhoTool.utils.showToast('File không có dữ liệu', 'error');
         return;
@@ -74,7 +101,8 @@ function handleFile(e) {
       KhoTool.utils.showToast('Lỗi: ' + (err.message || 'không đọc được'), 'error');
     }
   };
-  reader.readAsArrayBuffer(file);
+  if (isCsv) reader.readAsText(file, 'UTF-8');
+  else reader.readAsArrayBuffer(file);
 }
 
 function loadSheet(sheetName) {
@@ -86,7 +114,7 @@ function loadSheet(sheetName) {
   fillSelect('m6-dateColSelect', headers, true);
   headers.forEach(h => {
     const lower = h.toLowerCase();
-    if (lower.includes('doanh') || lower.includes('tiền') || lower.includes('gia') || lower.includes('amount')) document.getElementById('m6-valColSelect').value = h;
+    if (lower.includes('doanh') || lower.includes('tiền') || lower.includes('giá') || lower.includes('gia') || lower.includes('amount')) document.getElementById('m6-valColSelect').value = h;
     if (lower.includes('tên') || lower.includes('name') || lower.includes('mục') || lower.includes('category')) document.getElementById('m6-catColSelect').value = h;
     if (lower.includes('ngày') || lower.includes('date') || lower.includes('thời')) document.getElementById('m6-dateColSelect').value = h;
   });
@@ -105,9 +133,27 @@ function fillSelect(id, headers, optional = false) {
   headers.forEach(h => sel.add(new Option(h, h)));
 }
 
+// Đọc số cả kiểu Việt Nam (1.234.567 hoặc 1.234,5) lẫn kiểu Anh (1,234,567.5). Trả null nếu không phải số.
 function parseNumber(val) {
-  if (typeof val === 'number') return val;
-  return parseFloat(String(val || '').replace(/[^0-9.-]/g, '')) || 0;
+  if (typeof val === 'number') return isFinite(val) ? val : null;
+  let s = String(val == null ? '' : val).trim();
+  if (!s) return null;
+  const neg = /^\(.*\)$/.test(s) || s.startsWith('-');
+  s = s.replace(/[^0-9.,]/g, '');
+  if (!s) return null;
+  const hasDot = s.includes('.'), hasComma = s.includes(',');
+  if (hasDot && hasComma) {
+    if (s.lastIndexOf(',') > s.lastIndexOf('.')) s = s.replace(/\./g, '').replace(',', '.');
+    else s = s.replace(/,/g, '');
+  } else if (hasDot) {
+    if (/^\d{1,3}(\.\d{3})+$/.test(s)) s = s.replace(/\./g, '');
+  } else if (hasComma) {
+    if (/^\d{1,3}(,\d{3})+$/.test(s)) s = s.replace(/,/g, '');
+    else s = s.replace(',', '.');
+  }
+  const n = parseFloat(s);
+  if (isNaN(n)) return null;
+  return neg ? -n : n;
 }
 
 function buildDashboard() {
@@ -127,13 +173,13 @@ function buildDashboard() {
   rawData.forEach(row => {
     const cat = String(row[catCol] || '').trim();
     const val = parseNumber(row[valCol]);
-    if (!cat || !val || cat.toLowerCase().includes('total')) return;
+    if (!cat || val === null || isTotalLabel(cat)) return;
     totals[cat] = (totals[cat] || 0) + val;
     grandTotal += val;
     validRows++;
-    if (dateCol && row[dateCol]) {
-      const dateStr = String(row[dateCol]).slice(0, 10);
-      timeTotals[dateStr] = (timeTotals[dateStr] || 0) + val;
+    if (dateCol && row[dateCol] !== '') {
+      const dateStr = normalizeDate(row[dateCol]);
+      if (dateStr) timeTotals[dateStr] = (timeTotals[dateStr] || 0) + val;
     }
   });
 
@@ -162,7 +208,7 @@ function generateInsight(sorted, totals, grandTotal) {
   const lines = [];
 
   lines.push(`<strong>Tổng quan:</strong> Tổng giá trị đạt ${fmt(grandTotal)} trên ${Object.keys(totals).length} nhóm.`);
-  lines.push(`<strong>Dẫn đầu:</strong> ${top} chiếm ${topPct}% (${fmt(topVal)}), là nhóm đóng góp lớn nhất.`);
+  lines.push(`<strong>Dẫn đầu:</strong> ${esc(top)} chiếm ${topPct}% (${fmt(topVal)}), là nhóm đóng góp lớn nhất.`);
 
   if (sorted.length >= 3) {
     const top3Sum = sorted.slice(0, 3).reduce((s, k) => s + totals[k], 0);
@@ -174,7 +220,7 @@ function generateInsight(sorted, totals, grandTotal) {
     const bottom = sorted[sorted.length - 1];
     const bottomPct = ((totals[bottom] / grandTotal) * 100).toFixed(1);
     if (parseFloat(bottomPct) < 5) {
-      lines.push(`<strong>Lưu ý:</strong> Nhóm nhỏ nhất (${bottom}) chỉ chiếm ${bottomPct}%.`);
+      lines.push(`<strong>Lưu ý:</strong> Nhóm nhỏ nhất (${esc(bottom)}) chỉ chiếm ${bottomPct}%.`);
     }
   }
 
@@ -196,7 +242,7 @@ function renderResult(totals, grandTotal, validRows, topN, title, timeTotals, da
   const tbody = document.getElementById('m6-detailTable');
   tbody.innerHTML = sorted.map(k => {
     const pct = grandTotal ? ((totals[k] / grandTotal) * 100).toFixed(1) : 0;
-    return `<tr class="border-t border-slate-800"><td class="px-4 py-2">${k}</td><td class="px-4 py-2 text-right">${KhoTool.utils.formatVND(totals[k])}</td><td class="px-4 py-2 text-right">${pct}%</td></tr>`;
+    return `<tr class="border-t border-slate-800"><td class="px-4 py-2">${esc(k)}</td><td class="px-4 py-2 text-right">${KhoTool.utils.formatVND(totals[k])}</td><td class="px-4 py-2 text-right">${pct}%</td></tr>`;
   }).join('');
 
   if (barChart) barChart.destroy();
@@ -349,8 +395,8 @@ function resetCrop() {
 }
 
 function printReport() {
-  const title = document.getElementById('m6-reportHeader').textContent;
-  const company = document.getElementById('m6-companyName').value.trim();
+  const title = esc(document.getElementById('m6-reportHeader').textContent);
+  const company = esc(document.getElementById('m6-companyName').value.trim());
   const logoHtml = logoDataUrl ? `<img src="${logoDataUrl}" style="height:48px;margin-bottom:8px;">` : '';
   const companyHtml = company ? `<div style="font-size:13px;font-weight:600;margin-bottom:4px;">${company}</div>` : '';
   const barImg = document.getElementById('m6-barChart').toDataURL('image/png');

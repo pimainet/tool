@@ -7,12 +7,24 @@
 
   <textarea id="m1-inputText" rows="6" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-xs text-slate-200 focus:outline-none focus:ring-1 focus:ring-cyan-500" placeholder="Dán đoạn văn bản chứa số điện thoại..."></textarea>
 
-  <div class="flex items-center gap-3 text-xs">
+  <div class="flex flex-wrap items-center gap-x-5 gap-y-2 text-xs">
     <label class="flex items-center gap-2 cursor-pointer">
       <input type="checkbox" id="m1-keepContext" class="rounded border-slate-600 text-cyan-500 focus:ring-cyan-500">
       <span class="text-slate-300">Giữ ngữ cảnh (xuất cả dòng gốc)</span>
     </label>
+    <label class="flex items-center gap-2 cursor-pointer">
+      <input type="checkbox" id="m1-landline" class="rounded border-slate-600 text-cyan-500 focus:ring-cyan-500">
+      <span class="text-slate-300">Gồm cả số bàn (02x)</span>
+    </label>
+    <label class="flex items-center gap-2">
+      <span class="text-slate-400">Định dạng:</span>
+      <select id="m1-format" class="bg-slate-950 border border-slate-800 rounded-lg p-1.5 text-slate-200">
+        <option value="local">0912345678</option>
+        <option value="intl">+84912345678</option>
+      </select>
+    </label>
   </div>
+  <p class="text-[10px] text-slate-500">Nhận cả số viết có dấu cách/chấm (0912 345 678, 0912.345.678) và dạng +84. Số 0912345678 và +84912345678 được tính là một số.</p>
 
   <button id="m1-cleanBtn" class="bg-cyan-600 hover:bg-cyan-500 text-white font-bold text-xs px-5 py-2.5 rounded-xl transition">Lọc Số Điện Thoại</button>
 

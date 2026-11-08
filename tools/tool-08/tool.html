@@ -3,7 +3,7 @@
     <h2 class="text-xl font-bold text-white">Smart Image Studio</h2>
     <span class="text-[10px] bg-pink-500/10 text-pink-400 px-2 py-1 rounded-lg">v8</span>
   </div>
-  <p class="text-xs text-slate-400">Cắt ảnh theo khung chuẩn và tải xuống.</p>
+  <p class="text-xs text-slate-400">Cắt ảnh theo khung chuẩn và tải xuống. Kéo khung để di chuyển, kéo góc hồng dưới phải để đổi kích thước. Dùng được cả trên điện thoại.</p>
 
   <input type="file" id="m8-imageInput" accept="image/*" multiple class="text-xs text-slate-300">
   <div id="m8-fileCount" class="text-xs text-slate-400"></div>
@@ -48,6 +48,7 @@
       <button id="m8-batchBtn" class="hidden bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold px-4 py-2.5 rounded-xl">Xử lý tất cả</button>
       <button id="m8-resetBtn" class="bg-slate-800 hover:bg-slate-700 text-white text-xs px-4 py-2.5 rounded-xl">Chọn ảnh khác</button>
     </div>
+    <p class="text-[10px] text-slate-500">"Xử lý tất cả": cắt chính giữa từng ảnh theo tỉ lệ đã chọn (Tự do = giữ nguyên khung ảnh), cùng chất lượng và cùng vị trí logo.</p>
 
     <div id="m8-resultBox" class="hidden space-y-2 pt-2">
       <div class="text-xs text-slate-400">Kết quả xem trước:</div>

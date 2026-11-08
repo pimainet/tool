@@ -14,7 +14,7 @@ window.KhoTool.utils = {
     setTimeout(() => el.remove(), 2800);
   },
   incrementCounter() {
-    let count = parseInt(localStorage.getItem('ktcd_global_counter') || '128500') + 1;
+    let count = parseInt(localStorage.getItem('ktcd_global_counter') || '0') + 1;
     localStorage.setItem('ktcd_global_counter', String(count));
     const el = document.getElementById('realTaskCounter');
     if (el) el.textContent = count.toLocaleString('vi-VN');

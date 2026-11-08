@@ -2,19 +2,32 @@ let imageFiles = [];
 let currentIndex = 0;
 let originalImage = null;
 let logoImage = null;
+// Vị trí logo tính theo tỉ lệ của KHUNG CẮT (0..1), nên ảnh xem trước, ảnh tải về và xử lý hàng loạt đều khớp nhau
 let logoPos = { x: 0.7, y: 0.7 };
-let currentRatio = 'free';
+let currentRatio = 'free'; // = rộng / cao
 let cropBox = null;
-let isDragging = false;
+const MIN_CROP = 24;
+
+const $ = id => document.getElementById(id);
 
 window.KhoTool.currentInit = function () {
-  document.getElementById('m8-imageInput').onchange = handleImage;
-  document.getElementById('m8-previewBtn').onclick = showPreview;
-  document.getElementById('m8-cropBtn').onclick = downloadResult;
-  document.getElementById('m8-batchBtn').onclick = processBatch;
-  document.getElementById('m8-resetBtn').onclick = reset;
-  document.getElementById('m8-logoInput').onchange = handleLogo;
-  cropBox = document.getElementById('m8-cropBox');
+  $('m8-imageInput').onchange = handleImage;
+  $('m8-previewBtn').onclick = showPreview;
+  $('m8-cropBtn').onclick = downloadResult;
+  $('m8-batchBtn').onclick = processBatch;
+  $('m8-resetBtn').onclick = reset;
+  $('m8-logoInput').onchange = handleLogo;
+  cropBox = $('m8-cropBox');
+
+  // Pointer events chạy cho cả chuột lẫn cảm ứng
+  cropBox.style.touchAction = 'none';
+  $('m8-logoOverlay').style.touchAction = 'none';
+  const handle = document.createElement('div');
+  handle.style.cssText = 'position:absolute;right:-1px;bottom:-1px;width:22px;height:22px;background:#f472b6;border-radius:6px 0 0 0;cursor:nwse-resize;touch-action:none;';
+  cropBox.appendChild(handle);
+  setupCropDrag();
+  setupCropResize(handle);
+  setupLogoDrag($('m8-logoOverlay'));
 
   document.querySelectorAll('.m8-ratio-btn').forEach(btn => {
     btn.onclick = function () {
@@ -32,66 +45,100 @@ window.KhoTool.currentInit = function () {
     };
   });
 
-  document.getElementById('m8-logoSize').oninput = function () {
+  $('m8-logoSize').oninput = function () {
     positionLogoOverlay();
     showPreview();
   };
-  document.getElementById('m8-quality').oninput = function () {
-    document.getElementById('m8-qualityLabel').textContent = this.value + '%';
+  $('m8-quality').oninput = function () {
+    $('m8-qualityLabel').textContent = this.value + '%';
+    showPreview();
   };
 };
+
+// Kéo thả dùng pointer capture: không cần listener trên document, nên không bị rò rỉ khi mở lại tool
+function makeDraggable(el, { accept, onStart, onMove, onEnd }) {
+  let active = false, sx = 0, sy = 0;
+  el.addEventListener('pointerdown', e => {
+    if (accept && !accept(e)) return;
+    active = true;
+    sx = e.clientX; sy = e.clientY;
+    onStart(e);
+    el.setPointerCapture(e.pointerId);
+    e.preventDefault();
+    e.stopPropagation();
+  });
+  el.addEventListener('pointermove', e => {
+    if (active) onMove(e.clientX - sx, e.clientY - sy);
+  });
+  const end = () => { if (active) { active = false; if (onEnd) onEnd(); } };
+  el.addEventListener('pointerup', end);
+  el.addEventListener('pointercancel', end);
+}
+
+function boxRect() {
+  return {
+    l: parseFloat(cropBox.style.left) || 0,
+    t: parseFloat(cropBox.style.top) || 0,
+    w: parseFloat(cropBox.style.width) || 0,
+    h: parseFloat(cropBox.style.height) || 0
+  };
+}
 
 function handleImage(e) {
   const files = Array.from(e.target.files);
   if (!files.length) return;
   imageFiles = files;
   currentIndex = 0;
-  document.getElementById('m8-fileCount').textContent = files.length > 1 ? `Đã chọn ${files.length} ảnh` : '';
-  document.getElementById('m8-batchBtn').classList.toggle('hidden', files.length <= 1);
+  $('m8-fileCount').textContent = files.length > 1 ? `Đã chọn ${files.length} ảnh` : '';
+  $('m8-batchBtn').classList.toggle('hidden', files.length <= 1);
   loadImageAt(0);
 }
 
 function loadImageAt(index) {
   if (index >= imageFiles.length) return;
   currentIndex = index;
-  const reader = new FileReader();
-  reader.onload = function (ev) {
-    const img = document.getElementById('m8-preview');
-    img.src = ev.target.result;
-    img.onload = function () {
-      originalImage = img;
-      document.getElementById('m8-workspace').classList.remove('hidden');
-      document.getElementById('m8-info').textContent = `Ảnh ${index + 1}/${imageFiles.length}: ${img.naturalWidth} × ${img.naturalHeight}`;
-      initCropBox();
-    };
+  const url = URL.createObjectURL(imageFiles[index]);
+  const img = $('m8-preview');
+  img.onload = function () {
+    URL.revokeObjectURL(url);
+    originalImage = img;
+    $('m8-workspace').classList.remove('hidden');
+    $('m8-info').textContent = `Ảnh ${index + 1}/${imageFiles.length}: ${img.naturalWidth} × ${img.naturalHeight}`;
+    initCropBox();
+    showPreview();
   };
-  reader.readAsDataURL(imageFiles[index]);
+  img.onerror = () => KhoTool.utils.showToast('Không đọc được ảnh', 'error');
+  img.src = url;
 }
 
 function handleLogo(e) {
   const file = e.target.files[0];
-  if (!file) { logoImage = null; return; }
-  const reader = new FileReader();
-  reader.onload = function (ev) {
-    const img = new Image();
-    img.onload = function () {
-      logoImage = img;
-      document.getElementById('m8-logoOptions').classList.remove('hidden');
-      const overlay = document.getElementById('m8-logoOverlay');
-      overlay.src = img.src;
-      overlay.style.display = 'block';
-      positionLogoOverlay();
-      setupLogoDrag(overlay);
-      showPreview();
-      KhoTool.utils.showToast('Kéo logo để đặt vị trí');
-    };
-    img.src = ev.target.result;
+  if (!file) {
+    logoImage = null;
+    $('m8-logoOverlay').style.display = 'none';
+    $('m8-logoOptions').classList.add('hidden');
+    showPreview();
+    return;
+  }
+  const url = URL.createObjectURL(file);
+  const img = new Image();
+  img.onload = function () {
+    logoImage = img;
+    $('m8-logoOptions').classList.remove('hidden');
+    const overlay = $('m8-logoOverlay');
+    overlay.src = url;
+    overlay.style.display = 'block';
+    logoPos = { x: 0.7, y: 0.7 };
+    positionLogoOverlay();
+    showPreview();
+    KhoTool.utils.showToast('Kéo logo để đặt vị trí');
   };
-  reader.readAsDataURL(file);
+  img.src = url;
 }
 
 function initCropBox() {
   const img = originalImage;
+  if (!img) return;
   cropBox.style.display = 'block';
   const size = Math.min(img.offsetWidth, img.offsetHeight) * 0.6;
   let w = size, h = size;
@@ -103,181 +150,190 @@ function initCropBox() {
   cropBox.style.height = h + 'px';
   cropBox.style.left = ((img.offsetWidth - w) / 2) + 'px';
   cropBox.style.top = ((img.offsetHeight - h) / 2) + 'px';
-  setupDrag();
+  positionLogoOverlay();
 }
 
-function setupDrag() {
-  let startX, startY, startLeft, startTop;
-  cropBox.onmousedown = function (e) {
-    if (e.target !== cropBox) return;
-    isDragging = true;
-    startX = e.clientX;
-    startY = e.clientY;
-    startLeft = parseFloat(cropBox.style.left);
-    startTop = parseFloat(cropBox.style.top);
-    e.preventDefault();
-  };
-  document.onmousemove = function (e) {
-    if (!isDragging) return;
-    const img = originalImage;
-    let newLeft = startLeft + (e.clientX - startX);
-    let newTop = startTop + (e.clientY - startY);
-    const maxLeft = img.offsetWidth - parseFloat(cropBox.style.width);
-    const maxTop = img.offsetHeight - parseFloat(cropBox.style.height);
-    newLeft = Math.max(0, Math.min(newLeft, maxLeft));
-    newTop = Math.max(0, Math.min(newTop, maxTop));
-    cropBox.style.left = newLeft + 'px';
-    cropBox.style.top = newTop + 'px';
-  };
-  document.onmouseup = function () {
-    if (isDragging) showPreview();
-    isDragging = false;
-  };
+function setupCropDrag() {
+  let startLeft, startTop;
+  makeDraggable(cropBox, {
+    accept: e => e.target === cropBox,
+    onStart() { const r = boxRect(); startLeft = r.l; startTop = r.t; },
+    onMove(dx, dy) {
+      const img = originalImage;
+      if (!img) return;
+      const r = boxRect();
+      cropBox.style.left = Math.max(0, Math.min(startLeft + dx, img.offsetWidth - r.w)) + 'px';
+      cropBox.style.top = Math.max(0, Math.min(startTop + dy, img.offsetHeight - r.h)) + 'px';
+      positionLogoOverlay();
+    },
+    onEnd: showPreview
+  });
+}
+
+function setupCropResize(handle) {
+  let r0;
+  makeDraggable(handle, {
+    onStart() { r0 = boxRect(); },
+    onMove(dx, dy) {
+      const img = originalImage;
+      if (!img) return;
+      const maxW = img.offsetWidth - r0.l;
+      const maxH = img.offsetHeight - r0.t;
+      let w, h;
+      if (currentRatio === 'free') {
+        w = Math.max(MIN_CROP, Math.min(r0.w + dx, maxW));
+        h = Math.max(MIN_CROP, Math.min(r0.h + dy, maxH));
+      } else {
+        w = Math.max(MIN_CROP, Math.min(r0.w + dx, maxW, maxH * currentRatio));
+        h = w / currentRatio;
+      }
+      cropBox.style.width = w + 'px';
+      cropBox.style.height = h + 'px';
+      positionLogoOverlay();
+    },
+    onEnd: showPreview
+  });
 }
 
 function positionLogoOverlay() {
-  const overlay = document.getElementById('m8-logoOverlay');
-  const img = originalImage;
-  if (!overlay || !img) return;
-  const sizePct = parseInt(document.getElementById('m8-logoSize').value) / 100;
-  overlay.style.width = (img.offsetWidth * sizePct) + 'px';
-  overlay.style.left = (logoPos.x * img.offsetWidth) + 'px';
-  overlay.style.top = (logoPos.y * img.offsetHeight) + 'px';
+  const overlay = $('m8-logoOverlay');
+  if (!overlay || !originalImage || overlay.style.display === 'none' || !logoImage) return;
+  const r = boxRect();
+  if (!r.w || !r.h) return;
+  overlay.style.width = (r.w * parseInt($('m8-logoSize').value) / 100) + 'px';
+  const ow = overlay.offsetWidth, oh = overlay.offsetHeight;
+  logoPos.x = Math.max(0, Math.min(logoPos.x, Math.max(0, 1 - ow / r.w)));
+  logoPos.y = Math.max(0, Math.min(logoPos.y, Math.max(0, 1 - oh / r.h)));
+  overlay.style.left = (r.l + logoPos.x * r.w) + 'px';
+  overlay.style.top = (r.t + logoPos.y * r.h) + 'px';
 }
 
 function setupLogoDrag(overlay) {
-  let dragging = false, sx, sy, sl, st;
-  overlay.onmousedown = function (e) {
-    dragging = true;
-    sx = e.clientX; sy = e.clientY;
-    sl = parseFloat(overlay.style.left) || 0;
-    st = parseFloat(overlay.style.top) || 0;
-    e.preventDefault();
-    e.stopPropagation();
-  };
-  document.addEventListener('mousemove', function (e) {
-    if (!dragging) return;
-    const img = originalImage;
-    let nl = sl + (e.clientX - sx);
-    let nt = st + (e.clientY - sy);
-    nl = Math.max(0, Math.min(nl, img.offsetWidth - overlay.offsetWidth));
-    nt = Math.max(0, Math.min(nt, img.offsetHeight - overlay.offsetHeight));
-    overlay.style.left = nl + 'px';
-    overlay.style.top = nt + 'px';
-    logoPos.x = nl / img.offsetWidth;
-    logoPos.y = nt / img.offsetHeight;
-  });
-  document.addEventListener('mouseup', function () {
-    if (dragging) { dragging = false; showPreview(); }
+  let sl, st;
+  makeDraggable(overlay, {
+    onStart() { sl = parseFloat(overlay.style.left) || 0; st = parseFloat(overlay.style.top) || 0; },
+    onMove(dx, dy) {
+      const r = boxRect();
+      const nl = Math.max(r.l, Math.min(sl + dx, r.l + r.w - overlay.offsetWidth));
+      const nt = Math.max(r.t, Math.min(st + dy, r.t + r.h - overlay.offsetHeight));
+      logoPos.x = (nl - r.l) / r.w;
+      logoPos.y = (nt - r.t) / r.h;
+      overlay.style.left = nl + 'px';
+      overlay.style.top = nt + 'px';
+    },
+    onEnd: showPreview
   });
 }
 
-function getCroppedCanvas() {
-  if (!originalImage) return null;
-  const img = originalImage;
-  const scaleX = img.naturalWidth / img.offsetWidth;
-  const scaleY = img.naturalHeight / img.offsetHeight;
-  const x = parseFloat(cropBox.style.left) * scaleX;
-  const y = parseFloat(cropBox.style.top) * scaleY;
-  const w = parseFloat(cropBox.style.width) * scaleX;
-  const h = parseFloat(cropBox.style.height) * scaleY;
-
+// Vẽ vùng cắt (sx, sy, sw, sh trên ảnh gốc) + logo ra canvas. Dùng chung cho xem trước, tải về và hàng loạt.
+function renderCanvas(img, sx, sy, sw, sh) {
   const canvas = document.createElement('canvas');
-  canvas.width = w;
-  canvas.height = h;
+  canvas.width = Math.max(1, Math.round(sw));
+  canvas.height = Math.max(1, Math.round(sh));
   const ctx = canvas.getContext('2d');
-  ctx.drawImage(img, x, y, w, h, 0, 0, w, h);
+  ctx.fillStyle = '#fff'; // JPEG không có nền trong suốt: nền trắng thay vì đen
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+  ctx.drawImage(img, sx, sy, sw, sh, 0, 0, canvas.width, canvas.height);
 
   if (logoImage) {
-    const logoSizePct = parseInt(document.getElementById('m8-logoSize').value) / 100;
-    const logoW = w * logoSizePct;
-    const logoH = logoW * (logoImage.height / logoImage.width);
-    const lx = logoPos.x * w;
-    const ly = logoPos.y * h;
-    ctx.drawImage(logoImage, lx, ly, logoW, logoH);
+    const pct = parseInt($('m8-logoSize').value) / 100;
+    const logoW = canvas.width * pct;
+    const logoH = logoW * (logoImage.naturalHeight / logoImage.naturalWidth);
+    ctx.drawImage(logoImage, logoPos.x * canvas.width, logoPos.y * canvas.height, logoW, logoH);
   }
   return canvas;
+}
+
+function getCroppedCanvas() {
+  const img = originalImage;
+  if (!img || !img.offsetWidth) return null;
+  const scaleX = img.naturalWidth / img.offsetWidth;
+  const scaleY = img.naturalHeight / img.offsetHeight;
+  const r = boxRect();
+  return renderCanvas(img, r.l * scaleX, r.t * scaleY, r.w * scaleX, r.h * scaleY);
+}
+
+function quality() {
+  return parseInt($('m8-quality').value) / 100;
+}
+
+function baseNameOf(file, fallback) {
+  return (file && file.name.replace(/\.[^.]+$/, '')) || fallback;
 }
 
 function showPreview() {
   const canvas = getCroppedCanvas();
   if (!canvas) return;
-  document.getElementById('m8-resultPreview').src = canvas.toDataURL('image/jpeg', 0.8);
-  document.getElementById('m8-resultBox').classList.remove('hidden');
+  $('m8-resultPreview').src = canvas.toDataURL('image/jpeg', quality());
+  $('m8-resultBox').classList.remove('hidden');
+}
+
+function saveBlob(blob, filename) {
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = filename;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 1500);
 }
 
 function downloadResult() {
   const canvas = getCroppedCanvas();
   if (!canvas) return;
-  const quality = parseInt(document.getElementById('m8-quality').value) / 100;
   canvas.toBlob(blob => {
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'image_edited.jpg';
-    a.click();
-    URL.revokeObjectURL(url);
-    const sizeKB = Math.round(blob.size / 1024);
-    KhoTool.utils.showToast(`Đã tải (${sizeKB} KB)`);
+    saveBlob(blob, baseNameOf(imageFiles[currentIndex], 'image') + '_edited.jpg');
+    KhoTool.utils.showToast(`Đã tải (${Math.round(blob.size / 1024)} KB)`);
     KhoTool.utils.incrementCounter();
-  }, 'image/jpeg', quality);
+  }, 'image/jpeg', quality());
 }
 
+function loadImageFile(file) {
+  return new Promise((resolve, reject) => {
+    const url = URL.createObjectURL(file);
+    const img = new Image();
+    img.onload = () => { URL.revokeObjectURL(url); resolve(img); };
+    img.onerror = () => { URL.revokeObjectURL(url); reject(new Error('Không đọc được ' + file.name)); };
+    img.src = url;
+  });
+}
+
+// Hàng loạt: cắt chính giữa, vùng lớn nhất đúng tỉ lệ đã chọn (Tự do = giữ nguyên ảnh), áp cùng logo
 async function processBatch() {
   if (imageFiles.length <= 1) return;
   KhoTool.utils.showToast(`Đang xử lý ${imageFiles.length} ảnh...`);
+  let done = 0;
   for (let i = 0; i < imageFiles.length; i++) {
-    await new Promise(resolve => {
-      const reader = new FileReader();
-      reader.onload = function (ev) {
-        const img = new Image();
-        img.onload = function () {
-          const canvas = document.createElement('canvas');
-          const ratio = currentRatio === 'free' ? img.width / img.height : currentRatio;
-          let cw, ch;
-          if (ratio >= 1) { cw = img.width; ch = img.width / ratio; }
-          else { ch = img.height; cw = img.height * ratio; }
-          cw = Math.min(cw, img.width);
-          ch = Math.min(ch, img.height);
-          canvas.width = cw;
-          canvas.height = ch;
-          const ctx = canvas.getContext('2d');
-          const sx = (img.width - cw) / 2;
-          const sy = (img.height - ch) / 2;
-          ctx.drawImage(img, sx, sy, cw, ch, 0, 0, cw, ch);
-          if (logoImage) {
-            const logoSizePct = parseInt(document.getElementById('m8-logoSize').value) / 100;
-            const logoW = cw * logoSizePct;
-            const logoH = logoW * (logoImage.height / logoImage.width);
-            ctx.drawImage(logoImage, logoPos.x * cw, logoPos.y * ch, logoW, logoH);
-          }
-          const quality = parseInt(document.getElementById('m8-quality').value) / 100;
-          canvas.toBlob(blob => {
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = `edited_${i + 1}.jpg`;
-            a.click();
-            URL.revokeObjectURL(url);
-            resolve();
-          }, 'image/jpeg', quality);
-        };
-        img.src = ev.target.result;
-      };
-      reader.readAsDataURL(imageFiles[i]);
-    });
+    try {
+      const img = await loadImageFile(imageFiles[i]);
+      const W = img.naturalWidth, H = img.naturalHeight;
+      let cw = W, ch = H;
+      if (currentRatio !== 'free') {
+        if (W / H > currentRatio) { ch = H; cw = H * currentRatio; }
+        else { cw = W; ch = W / currentRatio; }
+      }
+      const canvas = renderCanvas(img, (W - cw) / 2, (H - ch) / 2, cw, ch);
+      const blob = await new Promise(res => canvas.toBlob(res, 'image/jpeg', quality()));
+      saveBlob(blob, baseNameOf(imageFiles[i], 'image_' + (i + 1)) + '_edited.jpg');
+      done++;
+      await new Promise(r => setTimeout(r, 350)); // tránh bị trình duyệt chặn tải nhiều file
+    } catch (err) {
+      KhoTool.utils.showToast(err.message, 'error');
+    }
   }
-  KhoTool.utils.showToast(`Đã xử lý ${imageFiles.length} ảnh`);
-  KhoTool.utils.incrementCounter();
+  if (done) {
+    KhoTool.utils.showToast(`Đã xử lý ${done}/${imageFiles.length} ảnh`);
+    KhoTool.utils.incrementCounter();
+  }
 }
 
 function reset() {
-  document.getElementById('m8-imageInput').value = '';
-  document.getElementById('m8-workspace').classList.add('hidden');
-  document.getElementById('m8-resultBox').classList.add('hidden');
+  $('m8-imageInput').value = '';
+  $('m8-workspace').classList.add('hidden');
+  $('m8-resultBox').classList.add('hidden');
+  $('m8-fileCount').textContent = '';
   originalImage = null;
   imageFiles = [];
   if (cropBox) cropBox.style.display = 'none';
-  const overlay = document.getElementById('m8-logoOverlay');
-  if (overlay) overlay.style.display = 'none';
 }

@@ -9,9 +9,14 @@
     <input type="file" id="m9-fileInput" accept=".xlsx,.xls,.csv,.json" class="text-xs text-slate-300">
     <div id="m9-fileActions" class="hidden space-y-3">
       <div class="text-xs text-slate-400" id="m9-fileInfo"></div>
-      <div class="flex gap-2">
+      <div id="m9-sheetBox" class="hidden">
+        <label class="text-xs text-slate-400">Sheet</label>
+        <select id="m9-sheetSelect" class="ml-2 bg-slate-950 border border-slate-800 text-xs p-2 rounded-lg text-slate-200"></select>
+      </div>
+      <div class="flex flex-wrap gap-2">
         <button id="m9-toJson" class="bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold px-4 py-2 rounded-xl">Xuất JSON</button>
         <button id="m9-toCsv" class="bg-slate-700 hover:bg-slate-600 text-white text-xs font-bold px-4 py-2 rounded-xl">Xuất CSV</button>
+        <button id="m9-toXlsx" class="bg-slate-700 hover:bg-slate-600 text-white text-xs font-bold px-4 py-2 rounded-xl">Xuất Excel (.xlsx)</button>
       </div>
       <div id="m9-preview" class="hidden bg-slate-950 border border-slate-800 rounded-xl p-3 text-[10px] font-mono text-slate-300 max-h-40 overflow-auto"></div>
     </div>
