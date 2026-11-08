@@ -11,18 +11,21 @@ window.KhoTool.loader = {
       const html = await htmlRes.text();
       container.innerHTML = html;
 
-      // Load tool script
-      const script = document.createElement('script');
-      script.src = tool.path + 'tool.js?t=' + Date.now();
-      script.onload = () => {
+      // Load tool script, bọc trong IIFE để biến let/const của mỗi tool không đụng nhau
+      // và có thể mở lại tool nhiều lần mà không lỗi "already declared"
+      window.KhoTool.currentInit = null;
+      const jsRes = await fetch(tool.path + 'tool.js?t=' + Date.now());
+      if (jsRes.ok) {
+        const code = await jsRes.text();
+        const script = document.createElement('script');
+        script.textContent = '(function(){\n' + code + '\n})();\n//# sourceURL=' + tool.id + '.js';
+        document.body.appendChild(script);
         if (typeof window.KhoTool.currentInit === 'function') {
           window.KhoTool.currentInit();
         }
-      };
-      script.onerror = () => {
-        console.warn('Tool không có tool.js hoặc lỗi load');
-      };
-      document.body.appendChild(script);
+      } else {
+        console.warn('Tool không có tool.js');
+      }
     } catch (e) {
       container.innerHTML = `<div class="text-center py-16 text-rose-400 text-sm">Lỗi: ${e.message}</div>`;
     }

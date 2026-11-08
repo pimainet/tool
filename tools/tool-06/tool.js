@@ -27,6 +27,21 @@ window.KhoTool.currentInit = function () {
   loadSavedCompany();
 };
 
+function loadSavedCompany() {
+  try {
+    const v = localStorage.getItem('ktcd_m6_company');
+    const el = document.getElementById('m6-companyName');
+    if (v && el && !el.value) el.value = v;
+  } catch (e) {}
+}
+
+function saveCompany() {
+  try {
+    const el = document.getElementById('m6-companyName');
+    if (el) localStorage.setItem('ktcd_m6_company', el.value.trim());
+  } catch (e) {}
+}
+
 function handleFile(e) {
   const file = e.target.files[0];
   if (!file) return;

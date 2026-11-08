@@ -149,6 +149,26 @@
       `).join('');
     }
 
+    function openTool(id) {
+      const tool = tools.find(t => t.id === id);
+      if (!tool) return;
+      document.getElementById('hub-view').classList.add('hidden');
+      document.getElementById('tool-view').classList.remove('hidden');
+      document.getElementById('backBtn').classList.remove('hidden');
+      window.scrollTo({ top: 0 });
+      window.KhoTool.loader.load(tool);
+    }
+
+    function showHub() {
+      window.KhoTool.loader.unload();
+      
+      document.getElementById('tool-view').classList.add('hidden');
+      document.getElementById('hub-view').classList.remove('hidden');
+      document.getElementById('backBtn').classList.add('hidden');
+      const el = document.getElementById('realTaskCounter');
+      if (el) el.textContent = parseInt(localStorage.getItem('ktcd_global_counter') || '0').toLocaleString('vi-VN');
+    }
+
     document.getElementById('searchInput').addEventListener('input', function() {
       const q = this.value.toLowerCase();
       const filtered = tools.filter(t => 
